@@ -1,0 +1,221 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 30px;
+  text-align: center;
+  color: white;
+  border: 0.5px solid white;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-bottom: 2px solid white;
+  background: transparent;
+  color: white;
+  outline: none;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.forgot-password {
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.forgot-password a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.button.primary {
+  background: #7255c1;
+  color: white;
+  margin-left: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.button.secondary {
+  background: transparent;
+  color: white;
+  margin-right: 10px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, white, transparent);
+  margin: 0 10px;
+  opacity: 70%;
+}
+
+.or-text {
+  opacity: 0.8;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-button {
+  background: white;
+  border-radius: 10px;
+  padding: 8px 36px;
+  margin-top: 10px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button.social-button img[alt="Apple"] {
+  width: 36px;
+  height: 24px;
+}
+
+button.social-button img[alt="Google"] {
+  width: 24px;
+  height: 24px;
+}
+
+.register-text {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.register-text a {
+  color: white;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.link {
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.welcome-title {
+  display: none; /* Caché par défaut */
+}
+
+
+.login-box {
+  max-width: 400px;
+  min-height: 75vh;
+  padding: 20px;
+}
+
+.forgot-password {
+  margin-bottom: 15px; 
+}
+
+.buttons {
+  margin-top: 10px; 
+}
+
+
+@media (max-width: 768px) {
+  .login-box {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-radius: 30px 30px 0 0;
+    padding-bottom: 10px;
+    min-height: 80vh; 
+  }
+
+  body.auth-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    min-height: 100vh;
+  }
+
+  .welcome-title {
+    display: block; 
+    position: absolute;
+    top: 5%;
+    left: 30px;
+    color: white;
+    font-size: 2.3rem;
+    font-weight: bold;
+  }
+}
+
