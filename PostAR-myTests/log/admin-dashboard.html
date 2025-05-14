@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            width: 100%;
+            background: #333;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: auto;
+            flex-wrap: wrap;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons button {
+            padding: 10px;
+            background: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-buttons button:hover {
+            background: #0073a8;
+        }
+
+        .logout-btn {
+            background: red;
+        }
+
+        .logout-btn:hover {
+            background: darkred;
+        }
+
+        .container {
+            margin-top: 80px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #008CBA;
+            color: white;
+        }
+
+        .ban-btn {
+            background: orange;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .ban-btn:hover {
+            background: darkorange;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .delete-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>Admin Dashboard</h1>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='admin-register.html'">Sign up Admin</button>
+            <button class="logout-btn" onclick="logout()">Log out</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>User list</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Created at</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="user-list">
+                <tr>
+                    <td colspan="4">Loading users...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const supabaseUrl = "https://tbzgewjnfcjviexmgnsq.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRiemdld2puZmNqdmlleG1nbnNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MTkyMjAsImV4cCI6MjA1NzI5NTIyMH0.aGbANeeHSe-MskK3U6z-DJI-x6TSAryHoS6mKonCF6w";
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        console.log("Supabase URL:", supabaseUrl);
+        console.log("Supabase Key:", supabaseKey);
+        console.log("Supabase Client:", supabaseClient);
+
+        
+        let currentUser = null;
+
+        async function fetchUsers() {
+            const userList = document.getElementById("user-list");
+            userList.innerHTML = `<tr><td colspan="4">Loading...</td></tr>`;
+            console.log("Supabase Key:", supabaseKey); 
+            
+
+            try {
+                // Obtener usuario actual
+                const { data: currentUserData, error: userError } = await supabaseClient.auth.getUser();
+                if (userError) throw userError;
+                currentUser = currentUserData.user;
+
+                // Obtener todos los usuarios
+                const response = await fetch("http://localhost:3000/users");
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                userList.innerHTML = "";
+
+                // Filtrar para no mostrar al usuario actual
+                const filteredUsers = data.users.filter(user => user.email !== currentUser.email);
+
+                if (filteredUsers.length === 0) {
+                    userList.innerHTML = `<tr><td colspan="4">No users signed up</td></tr>`;
+                    return;
+                }
+
+                filteredUsers.forEach(user => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.email}</td>
+                        <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <button class="ban-btn" onclick="banUser('${user.id}')">Banear</button>
+                            <button class="delete-btn" onclick="deleteUser('${user.id}')">Eliminar</button>
+                        </td>
+                    `;
+                    userList.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error("Error al obtener usuarios:", error.message);
+                userList.innerHTML = `<tr><td colspan="4">Error when loading users</td></tr>`;
+            }
+        }
+
+        async function banUser(userId) {
+            if (!confirm("¿Are you sure that you want to ban this user?")) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/ban-user/${userId}`, {
+                    method: "POST",
+                });
+
+                const result = await response.json();
+                if (result.error) throw new Error(result.error);
+
+                alert("User banned correctly.");
+                fetchUsers(); // Recargar la lista
+            } catch (error) {
+                console.error("Error when banning user:", error.message);
+                alert("Error when banning user.");
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm("Are you sure you want to delete this user?")) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/delete-user/${userId}`, {
+                    method: "DELETE",
+                });
+
+                const result = await response.json();
+                if (result.error) throw new Error(result.error);
+
+                alert("User deleted correctly.");
+                fetchUsers(); // Recargar la lista
+            } catch (error) {
+                console.error("Error when deleteing the user:", error.message);
+                alert("Error when deleteing the user.");
+            }
+        }
+
+        async function logout() {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) {
+                alert("Error when logging out: " + error.message);
+            } else {
+                window.location.href = "index.html";
+            }
+        }
+        fetchUsers();
+    </script>
+</body>
+</html>

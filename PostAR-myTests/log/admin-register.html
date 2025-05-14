@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Administrador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0073a8;
+        }
+
+        .back-btn {
+            background: gray;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            background: darkgray;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registrar Administrador</h2>
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+        <input type="tel" id="phone" placeholder="Telephone" required>
+        <p id="error-message" class="error"></p>
+        <button onclick="registerAdmin()">Sign up</button>
+        <button class="back-btn" onclick="window.location.href='admin-dashboard.html'">Go back to Dashboard</button>
+    </div>
+
+    <script>
+        const supabaseUrl = "https://tbzgewjnfcjviexmgnsq.supabase.co"; 
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRiemdld2puZmNqdmlleG1nbnNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MTkyMjAsImV4cCI6MjA1NzI5NTIyMH0.aGbANeeHSe-MskK3U6z-DJI-x6TSAryHoS6mKonCF6w"; 
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function registerAdmin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const phone = document.getElementById("phone").value;
+            const errorMessage = document.getElementById("error-message");
+
+            // Limpiar errores previos
+            errorMessage.textContent = "";
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "The passwords don't match";
+                return;
+            }
+
+            if (password.length < 6) {
+                errorMessage.textContent = "The passwords should at least be 6 characters.";
+                return;
+            }
+
+            try {
+                // Crear usuario en Supabase con metadata de admin
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            role: "admin",  // 🟢 Añadimos el rol en metadata
+                            phone: phone
+                        }
+                    }
+                });
+
+                if (error) throw error;
+
+                alert("Administrator registrated correctly!");
+                window.location.href = "admin-dashboard.html";
+            } catch (error) {
+                errorMessage.textContent = "Error: " + error.message;
+            }
+        }
+    </script>
+
+</body>
+</html>
