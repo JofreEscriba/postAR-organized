@@ -1,0 +1,16 @@
+# Ignorar claves SSH
+*.pem
+*.key
+*.pub
+id_rsa
+id_rsa*
+
+# Ignorar entornos virtuales y dependencias
+env/
+venv/
+node_modules/
+
+# Ignorar archivos temporales de VS Code y otros
+.vscode/
+.DS_Store
+*.log
