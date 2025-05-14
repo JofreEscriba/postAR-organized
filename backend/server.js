@@ -1,31 +1,40 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { createClient } from '@supabase/supabase-js';
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const { createClient } = require("@supabase/supabase-js");
 
-dotenv.config();
+// Rutas importadas
+const chatRoutes = require("./routes/chatRoutes");
+const messagesRoutes = require("./routes/messagesRoutes");
+const userRoutes = require('./routes/userRoutes');
+const postcardRoutes = require('./routes/postcardRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Supabase (si lo necesitas en otros módulos)
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
-app.use(express.json());
+// Rutas
+app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messagesRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/postcards', postcardRoutes);
 
-app.post('/signin', async (req, res) => {
-  const { email, password } = req.body;
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return res.status(401).json({ error: error.message });
-  res.json(data);
+
+// Ruta raíz
+app.get("/", (req, res) => {
+  res.send("Servidor del backend corriendo correctamente 🚀");
 });
 
+// Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`✅ Backend running at http://localhost:${PORT}`);
+  console.log(`Servidor escoltant al port ${PORT}`);
 });
