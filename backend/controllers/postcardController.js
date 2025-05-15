@@ -1,4 +1,5 @@
 import supabase from '../supabaseClient.js';
+import { v4 as uuidv4 } from 'uuid';
 
 // Obtener todas las postales
 export const getAllPostcards = async (req, res) => {
@@ -34,24 +35,45 @@ export const getPostcardById = async (req, res) => {
 
 // Crear una nueva postal
 export const createPostcard = async (req, res) => {
-  const { title, message, sender_id, receiver_id, image_url } = req.body;
+  const { title,date, message, sender_id } = req.body;
+  const file = req.file;
 
-  if (!title || !message || !sender_id || !receiver_id) {
-    return res.status(400).json({ error: 'Faltan campos requeridos' });
+
+  if (!title || !date || !message || !sender_id  || !file) {
+    return res.status(400).json({ error: 'Faltan campos requeridos o media' });
   }
 
   try {
-    const { data, error } = await supabase
+    // 1. Subir archivo a Supabase Storage
+    const filename = `${uuidv4()}_${file.originalname}`;
+    const { error: uploadError } = await supabase.storage
+      .from('test')
+      .upload(filename, file.buffer, {
+        contentType: file.mimetype,
+      });
+
+    if (uploadError) throw uploadError;
+
+    // 2. Obtener la URL pública
+    const { data: publicUrlData } = supabase.storage
+      .from('test')
+      .getPublicUrl(filename);
+
+    const image_url = publicUrlData.publicUrl;
+
+    // 3. Insertar en la tabla
+    const { data, error: insertError } = await supabase
       .from('Postcard')
-      .insert([{ title, message, sender_id, receiver_id, image_url }])
+      .insert([{ title:title, description:message, sender_id:sender_id, image:image_url }])
       .select()
       .single();
 
-    if (error) throw error;
-    res.status(201).json(data);
+    if (insertError) throw insertError;
+
+    return res.status(201).json(data);
   } catch (error) {
     console.error("Error creando postal:", error.message);
-    res.status(500).json({ error: 'Error creando postal' });
+    return res.status(500).json({ error: 'Error creando postal' });
   }
 };
 

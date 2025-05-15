@@ -63,7 +63,15 @@ const CardAdd: React.FC = () => {
     formDataToSend.append("media", media);
 
     try {
-      const response = await axios.post("http://localhost:5000/upload", formDataToSend, {
+      //Obtener id del usuario logeado
+      const userMail = localStorage.getItem("user_email");
+      console.log("User email:", userMail);
+      const responseUser = await axios.get(`http://localhost:3001/api/users/email/${userMail}`);
+      const sender_id = responseUser.data.id;
+      
+      formDataToSend.append("sender_id", sender_id);
+
+      const response = await axios.post("http://localhost:3001/api/postcards", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import MobileNavbar from '../components/MobileNavbar';
 import { Link, useLocation } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
-import { FaRegUser } from 'react-icons/fa';
+import { FaRegUser, FaRocketchat } from 'react-icons/fa';
 import { MdDashboard, MdCreditCard } from 'react-icons/md';
 
 const Navbar = () => {
@@ -27,6 +27,9 @@ const Navbar = () => {
         </Link>
         <Link to="/profile" className={`${styles.link} ${location.pathname === '/profile' ? styles.active : ''}`}>
           <FaRegUser /> Profile
+        </Link>
+        <Link to="/chats" className={`${styles.link} ${location.pathname === '/chats' ? styles.active : ''}`}>
+          <FaRocketchat /> Chats
         </Link>
       </div>
     </nav>

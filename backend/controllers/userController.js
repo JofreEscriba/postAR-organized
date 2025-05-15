@@ -32,6 +32,26 @@ export const getUserById = async (req, res) => {
   }
 };
 
+export const getUserByMail = async (req, res) => {
+  const { email } = req.params;
+  
+
+  try {
+    const { data, error } = await supabase
+      .from('User')
+      .select('*')
+      .eq('email_address', email)
+      .single();
+
+    if (error) throw error;
+    
+    res.json(data);
+  } catch (error) {
+    console.error("Error obteniendo usuario:", error.message);
+    res.status(500).json({ error: 'Error obteniendo usuario' });
+  }
+};
+
 // Crear un nuevo usuario
 export const createUser = async (req, res) => {
   const { name, email, userId } = req.body;

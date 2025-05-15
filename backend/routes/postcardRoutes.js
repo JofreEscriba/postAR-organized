@@ -1,4 +1,6 @@
 import express from 'express';
+import upload from '../middlewares/upload.js';
+
 import {
   getAllPostcards,
   getPostcardById,
@@ -11,7 +13,7 @@ const router = express.Router();
 
 router.get('/', getAllPostcards);
 router.get('/:id', getPostcardById);
-router.post('/', createPostcard);
+router.post('/', upload.single('media'), createPostcard);
 router.put('/:id', updatePostcard);
 router.delete('/:id', deletePostcard);
 
