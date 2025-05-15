@@ -3,7 +3,7 @@ import { loginUser, signupUser, getOAuthUrl } from '../controllers/authControlle
 
 const router = express.Router();
 
-router.post('/login', loginUser);
+router.post('/signin', loginUser);
 router.post('/signup', signupUser);
 router.get('/oauth-url', getOAuthUrl);
 

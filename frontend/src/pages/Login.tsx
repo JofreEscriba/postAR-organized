@@ -32,6 +32,10 @@ const Login: React.FC = () => {
     if (!response.ok) {
       alert('Login failed: ' + result.error);
     } else {
+      // ✅ Guardar token en localStorage
+      localStorage.setItem('access_token', result.session.session.access_token);
+      localStorage.setItem('user_email', result.session.user.email);
+  
       alert('Login successful!');
       navigate('/dashboard');
     }
