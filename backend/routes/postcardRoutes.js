@@ -1,11 +1,18 @@
-const express = require('express');
+import express from 'express';
+import {
+  getAllPostcards,
+  getPostcardById,
+  createPostcard,
+  updatePostcard,
+  deletePostcard
+} from '../controllers/postcardController.js';
+
 const router = express.Router();
-const postcardController = require('../controllers/postcardController');
 
-router.get('/', postcardController.getAllPostcards);
-router.get('/:id', postcardController.getPostcardById);
-router.post('/', postcardController.createPostcard);
-router.put('/:id', postcardController.updatePostcard);
-router.delete('/:id', postcardController.deletePostcard);
+router.get('/', getAllPostcards);
+router.get('/:id', getPostcardById);
+router.post('/', createPostcard);
+router.put('/:id', updatePostcard);
+router.delete('/:id', deletePostcard);
 
-module.exports = router;
+export default router;

@@ -1,20 +1,18 @@
-const express = require("express");
+import express from 'express';
+import {
+  getMessages,
+  createMessage,
+  deleteMessagesIfHidden,
+  deleteUserMessages,
+  hideUserMessages
+} from '../controllers/messagesController.js';
+
 const router = express.Router();
-const messagesController = require("../controllers/messagesController");
 
-// GET mensajes por idChat y numUsuari
-router.get("/", messagesController.getMessages);
+router.get('/', getMessages);
+router.post('/', createMessage);
+router.delete('/hidden', deleteMessagesIfHidden);
+router.delete('/user', deleteUserMessages);
+router.put('/hide', hideUserMessages);
 
-// POST nuevo mensaje
-router.post("/", messagesController.createMessage);
-
-// DELETE mensajes ocultos por ambos usuarios
-router.delete("/", messagesController.deleteMessagesIfHidden);
-
-// DELETE mensajes de un usuario específico
-router.delete("/myMessages", messagesController.deleteUserMessages);
-
-// PUT ocultar mensajes de un usuario
-router.put("/myMessages", messagesController.hideUserMessages);
-
-module.exports = router;
+export default router;

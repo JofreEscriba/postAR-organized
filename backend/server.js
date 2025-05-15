@@ -1,13 +1,16 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const { createClient } = require("@supabase/supabase-js");
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import { createClient } from '@supabase/supabase-js';
 
 // Rutas importadas
-const chatRoutes = require("./routes/chatRoutes");
-const messagesRoutes = require("./routes/messagesRoutes");
-const userRoutes = require('./routes/userRoutes');
-const postcardRoutes = require('./routes/postcardRoutes');
+import chatRoutes from './routes/chatRoutes.js';
+import messagesRoutes from './routes/messagesRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import postcardRoutes from './routes/postcardRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+
+dotenv.config();  // Llama a config() para cargar las variables de entorno
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -27,7 +30,7 @@ app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/postcards', postcardRoutes);
-
+app.use('/api/auth', authRoutes);
 
 // Ruta raíz
 app.get("/", (req, res) => {
@@ -36,5 +39,5 @@ app.get("/", (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor escoltant al port ${PORT}`);
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

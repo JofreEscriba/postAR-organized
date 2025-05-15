@@ -1,0 +1,222 @@
+/* ========== General Layout ========== */
+.wrapper {
+    background-color: white;
+    width: 100vw;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.title{
+    font-size: 280%;
+    margin-left: 30px;
+}
+
+/* ========== Search Bar ========== */
+.searchcontainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchbar {
+    margin: 20px 20px;
+    width: 90%;
+    height: 3vw;
+    border: none;
+    background-color: #F7F4FF;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+
+    /* Search icon inside input */
+    background-image: url('src/assets/search-icon.png');
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    padding-right: 35px; /* Space for the icon */
+}
+
+/* ========== Filter Buttons (All, Sent, Received) ========== */
+.allbutton,
+.sentbutton,
+.receivedbutton {
+  border: none;
+  background: none;
+  font-size: 16px;
+  margin: 20px 20px 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: #6b6b6b; /* Default color */
+  border-radius: 20px;
+}
+
+/* Hover effect */
+.allbutton:hover,
+.sentbutton:hover,
+.receivedbutton:hover {
+  background-color: #646cff;
+  transform: translateY(-4px);
+  color: white;
+}
+
+/* Active button styles */
+.active {
+  background-color: #646cff; /* Darker color when active */
+  color: white;
+}
+
+/* ========== Cards Section ========== */
+.cardscontainer {
+    overflow-x: auto; /* Allows horizontal scrolling */
+    white-space: nowrap;
+    width: 100%;
+    
+    /* Hides scrollbar but keeps scrolling */
+    -ms-overflow-style: none; /* IE & Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.cardscontainer::-webkit-scrollbar {
+    width: 0px; /* Hides scrollbar */
+    height: 0px;
+    scroll-behavior: smooth;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    margin: 30px 0;
+}
+
+/* Individual Card */
+.card {
+    margin: 0 10px 20px 20px;
+    height: 300px;
+    min-width: 475px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 600px;
+    border-radius: 40px / 80px;
+    color: white;
+    border: none;
+}
+
+/* Card hover effect */
+.card:hover {
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 0px 40px -15px rgba(119, 126, 254, 1);
+    cursor: pointer;
+}
+
+/* Card Text */
+.cardtext {
+    margin: -100px 0 0 -100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ========== "This Year" Section ========== */
+
+.thisyear {
+    color: #9B96AB;
+}
+
+.cardsent {
+    display: flex;
+    flex-direction: row;
+}
+
+/* ========== Nomadic Cards ========== */
+.nomandiccard1, .nomandiccard2 {
+    margin: 20px;
+    width: 450px;
+    height: 130px;
+    border: solid #D2C2FFAD;
+    border-radius: 20px;
+}
+
+.nomandiccard1 h3, .nomandiccard2 h3 {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 25px;
+}
+
+.nomandiccarddiv {
+    width: 130px;
+    height: 80px;
+    background-image: url('src/assets/BlueCardExample.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 300px;
+    border-radius: 40px / 80px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        display: flex;
+        justify-content: center;
+    }
+
+    .searchcontainer {
+        justify-content: center;
+    }
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        margin: 0 10px 20px 20px;
+        height: 250px;
+        min-width: 340px;
+        background-size: 600px;
+        border-radius: 40px / 80px;
+        color: white;
+        border: none;
+    }
+}
+
+/* Carte ID 1 */
+.mainBalanceCard {
+    background-image: url('/src/assets/BlueCardExample.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #3498db;
+}
+
+/* Carte ID 2 (Sunshine Memory) */
+.sunshineCard {
+    background-image: url('/src/assets/GreenCardExample.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #2ecc71;
+}
+
+/* Carte ID 3 (Gift Card) */
+.giftCard {
+    background-image: url('/src/assets/PurpleCardExample.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #9b59b6
+}
+
+/* Carte ID 4 (Travel Card) */
+.travelCard {
+    background-image: url('/src/assets/YellowCardExample.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #f1c40f;
+}
+
+/* Carte ID 5 (Bonus Card) */
+.bonusCard {
+    background-image: url('/src/assets/RedCardExample.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #f1690f;
+}

@@ -1,13 +1,7 @@
-const { createClient } = require("@supabase/supabase-js");
-
-// Inicializar Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import supabase from '../supabaseClient.js';
 
 // Obtener todos los usuarios
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const { data, error } = await supabase.from('User').select('*');
 
@@ -20,7 +14,7 @@ const getAllUsers = async (req, res) => {
 };
 
 // Obtener un usuario por ID
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -39,7 +33,7 @@ const getUserById = async (req, res) => {
 };
 
 // Crear un nuevo usuario
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   const { nombre, email } = req.body;
 
   if (!nombre || !email) {
@@ -62,7 +56,7 @@ const createUser = async (req, res) => {
 };
 
 // Actualizar un usuario
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 
@@ -83,7 +77,7 @@ const updateUser = async (req, res) => {
 };
 
 // Eliminar un usuario
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -98,12 +92,4 @@ const deleteUser = async (req, res) => {
     console.error("Error eliminando usuario:", error.message);
     res.status(500).json({ error: 'Error eliminando usuario' });
   }
-};
-
-module.exports = {
-  getAllUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser
 };

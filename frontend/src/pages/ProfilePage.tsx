@@ -1,26 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/profile.module.css';
 import Navbar from '../components/Navbar';
-import MobileNavbar from '../components/MobileNavbar';
-import profilePic from '../assets/profile.png';
 import { FaEdit, FaCheckCircle } from 'react-icons/fa';
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.profileWrapper}>
-      {/* Navbar Desktop */}
-      <div className={styles.navbarWrapper}>
-        <Navbar />
-      </div>
-
-      {}
+      <Navbar />
+      
       <div className={styles.profileContainer}>
         <div className={styles.leftColumn}>
           <h2 className={styles.profileTitle}>My profile</h2>
           <div className={styles.profileCard}>
             <div className={styles.profileHeader}>
               <div className={styles.imageContainer}>
-                <img src={profilePic} alt="Profile" className={styles.profilePic} />
+                <img src="/Post-AR/profile.png" alt="Profile" className={styles.profilePic} />
                 <FaCheckCircle className={styles.verifiedIcon} />
               </div>
               <div className={styles.userInfo}>
@@ -43,14 +40,9 @@ const ProfilePage: React.FC = () => {
           <div className={styles.options}>
             <button>About App</button>
             <button>Contact us</button>
-            <button className={styles.logout}>Logout</button>
+            <button className={styles.logout} onClick={() => navigate('/')}>Logout</button>
           </div>
         </div>
-      </div>
-
-      {/* Navbar Mobile */}
-      <div className={`${styles.mobileNavbarWrapper} mobileNavbarOnly`}>
-        <MobileNavbar />
       </div>
     </div>
   );

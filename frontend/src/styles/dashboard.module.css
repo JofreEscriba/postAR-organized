@@ -1,0 +1,306 @@
+.dashboardWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 9999;
+}
+
+.navbarWrapper {
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting {
+  font-size: 1.6rem;
+  margin-left: 15px;
+  font-weight: 600;
+}
+
+.userName {
+  font-weight: bold;
+  color: #333;
+}
+
+.addButton {
+  background-color: #00AEEF;
+  color: white;
+  border: none;
+  padding: 14px 26px;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10%;
+  margin-left: 15px;
+  margin-bottom: 10%;
+  transition: background 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #0192c7;
+}
+
+.mobileNavbarWrapper {
+  display: none;
+}
+
+.searchcontainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchbar {
+  margin: 0 20px;
+  width: 90%;
+  height: 3vw;
+  border: none;
+  background-color: #F7F4FF;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  background-image: url('src/assets/search-icon.png');
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 40px;
+  padding-right: 35px;
+}
+
+.allbutton,
+.sentbutton,
+.receivedbutton {
+  border: none;
+  background: none;
+  font-size: 16px;
+  margin: 10px 30px 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: #6b6b6b;
+  border-radius: 20px;
+}
+
+.allbutton:hover,
+.sentbutton:hover,
+.receivedbutton:hover {
+  background-color: #646cff;
+  transform: translateY(-4px);
+  color: white;
+}
+
+.active {
+  background-color: #646cff;
+  color: white;
+}
+
+.cardscontainer {
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.cardscontainer::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  scroll-behavior: smooth;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+}
+
+.card {
+  margin: 15px 10px 20px 20px;
+  height: 300px;
+  min-width: 475px;
+  background-image: url('src/assets/BlueCardExample.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 600px;
+  border-radius: 40px / 80px;
+  color: white;
+  border: none;
+}
+
+.card:hover {
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 40px -15px rgba(119, 126, 254, 1);
+  cursor: pointer;
+}
+
+.cardtext {
+  margin: -100px 0 0 -100px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.thisyear {
+  color: #9B96AB;
+}
+
+.cardsent {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .content {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .greeting {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+
+  .userName {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .profileImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 20%;
+    object-fit: cover;
+  }
+
+  .addButton {
+    margin: 0;
+    padding: 8px 18px;
+    font-size: 16px;
+  }
+
+  .searchcontainer {
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .card {
+    margin: 0px 10px 20px 20px;
+    height: 250px;
+    min-width: 340px;
+    background-size: 600px;
+    border-radius: 40px / 80px;
+    color: white;
+    border: none;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobileOnly {
+    display: none;
+  }
+
+  .desktopOnly {
+    display: block;
+  }
+}
+
+/* Carte ID 1 */
+.mainBalanceCard {
+  background-image: url('/src/assets/BlueCardExample.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #3498db;
+}
+
+/* Carte ID 2 (Sunshine Memory) */
+.sunshineCard {
+  background-image: url('/src/assets/GreenCardExample.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #2ecc71;
+}
+
+/* Carte ID 3 (Gift Card) */
+.giftCard {
+  background-image: url('/src/assets/PurpleCardExample.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #9b59b6
+}
+
+/* Carte ID 4 (Travel Card) */
+.travelCard {
+  background-image: url('/src/assets/YellowCardExample.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #f1c40f;
+}
+
+/* Carte ID 5 (Bonus Card) */
+.bonusCard {
+  background-image: url('/src/assets/RedCardExample.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #f1690f;
+}

@@ -3,10 +3,10 @@ import { Eye, EyeOff } from 'lucide-react';
 import styles from '../styles/auth.module.css';
 
 interface InputProps {
-    type?: string;
-    placeholder: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  placeholder: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({ type = 'text', placeholder, value, onChange }) => {
@@ -18,8 +18,8 @@ const Input: React.FC<InputProps> = ({ type = 'text', placeholder, value, onChan
         className={styles['input']}
         type={type === 'password' && !showPassword ? 'password' : 'text'}
         placeholder={placeholder}
-        value={value} // Agregar la propiedad value
-        onChange={onChange} // Agregar la propiedad onChange
+        value={value}
+        onChange={onChange}
       />
       {type === 'password' && (
         <span className={styles['eye-icon']} onClick={() => setShowPassword(!showPassword)}>

@@ -1,0 +1,35 @@
+/* Styles globaux pour le fond */
+body {
+    background-color: white;
+    overflow-y: hidden; /* Désactive le scroll par défaut */
+}
+
+/* Exceptions pour les pages spécifiques */
+body.auth-page,
+body:has(.container) {
+    background-color: transparent !important;
+}
+
+@media (max-width: 1024px) {
+    body {
+        overflow-y: auto; /* Active le scroll uniquement sur mobile */
+        min-height: 100vh;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: -1;
+    }
+
+    body.auth-page::before,
+    body:has(.container)::before {
+        display: none !important;
+    }
+} 

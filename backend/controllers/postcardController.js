@@ -1,13 +1,7 @@
-const { createClient } = require("@supabase/supabase-js");
-
-// Inicializar Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import supabase from '../supabaseClient.js';
 
 // Obtener todas las postales
-const getAllPostcards = async (req, res) => {
+export const getAllPostcards = async (req, res) => {
   try {
     const { data, error } = await supabase.from('Postcard').select('*');
 
@@ -20,7 +14,7 @@ const getAllPostcards = async (req, res) => {
 };
 
 // Obtener una postal por ID
-const getPostcardById = async (req, res) => {
+export const getPostcardById = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -39,7 +33,7 @@ const getPostcardById = async (req, res) => {
 };
 
 // Crear una nueva postal
-const createPostcard = async (req, res) => {
+export const createPostcard = async (req, res) => {
   const { title, message, sender_id, receiver_id, image_url } = req.body;
 
   if (!title || !message || !sender_id || !receiver_id) {
@@ -62,7 +56,7 @@ const createPostcard = async (req, res) => {
 };
 
 // Actualizar una postal
-const updatePostcard = async (req, res) => {
+export const updatePostcard = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 
@@ -83,7 +77,7 @@ const updatePostcard = async (req, res) => {
 };
 
 // Eliminar una postal
-const deletePostcard = async (req, res) => {
+export const deletePostcard = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -98,12 +92,4 @@ const deletePostcard = async (req, res) => {
     console.error("Error eliminando postal:", error.message);
     res.status(500).json({ error: 'Error eliminando postal' });
   }
-};
-
-module.exports = {
-  getAllPostcards,
-  getPostcardById,
-  createPostcard,
-  updatePostcard,
-  deletePostcard
 };

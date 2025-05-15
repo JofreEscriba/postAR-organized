@@ -17,6 +17,8 @@
 .logo {
   font-size: 20px;
   font-weight: bold;
+  color: black;
+  text-decoration: none;
 }
 
 .links {
@@ -47,3 +49,4 @@
   justify-content: center;
   padding-top: 70px;
 }
+

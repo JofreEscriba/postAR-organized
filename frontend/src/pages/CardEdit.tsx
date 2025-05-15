@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Navbar from "../components/Navbar";
 import styles from "../styles/cardEdit.module.css";
+import blueCard from "../assets/BlueCardExample.png";
+import greenCard from "../assets/GreenCardExample.png";
+import purpleCard from "../assets/PurpleCardExample.png";
+import yellowCard from "../assets/YellowCardExample.png";
+import redCard from "../assets/RedCardExample.png";
 
 // im adding a bit of commentairy so its easier to see what does what.
 // i have almost no experience with backend and databases so change what you need to change
 // chatgpt has been used for parts of the backend of this page
 
-
 const CardEdit: React.FC = () => {
-  const { id } = useParams(); // get card id from URL
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const [card, setCard] = useState({
@@ -18,48 +21,94 @@ const CardEdit: React.FC = () => {
     date: "",
     message: "",
     imageUrl: "",
-  }); // the card data is stored in useState (title, date, message, image)
+  });
 
-  useEffect(() => {
-    axios.get(`http://localhost:5000/cards/${id}`)
-      .then((response) => {
-        setCard(response.data); // update the state with fetched card data
-      })
-      .catch((error) => {
-        console.error("Error fetching card:", error);
-      });
-  }, [id]);
-
-// this function updates the state when the user types in an input field
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCard({ ...card, [e.target.name]: e.target.value }); // e.target.name dynamically updates title, date, or message in state
+  // Fonction pour déterminer le type de carte en fonction de l'ID
+  const getCardType = (cardId: string | undefined) => {
+    if (!cardId) return "blue";
+    
+    // On convertit l'ID en nombre pour le switch
+    const idNum = parseInt(cardId);
+    switch(idNum) {
+      case 1:
+        return "blue";
+      case 2:
+        return "green";
+      case 3:
+        return "purple";
+      case 4:
+        return "yellow";
+      case 5:
+        return "red";
+      default:
+        return "blue";
+    }
   };
 
+  // Fonction pour obtenir l'image de la carte en fonction du type
+  const getCardImage = (cardType: string) => {
+    switch(cardType) {
+      case "blue":
+        return blueCard;
+      case "green":
+        return greenCard;
+      case "purple":
+        return purpleCard;
+      case "yellow":
+        return yellowCard;
+      case "red":
+        return redCard;
+      default:
+        return blueCard;
+    }
+  };
 
-  // prevents form from reloading (e.preventDefault())
-  // sends a PUT request to update the card (/cards/:id)
-  // if successful, an alert appears and the user is redirected to /
+  useEffect(() => {
+    // Simulation des données de la carte en fonction de l'ID
+    const cardTypes = {
+      1: { title: "Main Balance", color: "blue" },
+      2: { title: "Sunshine Memory", color: "green" },
+      3: { title: "Gift Card", color: "purple" },
+      4: { title: "Travel Card", color: "yellow" },
+      5: { title: "Bonus Card", color: "red" }
+    };
+
+    const cardId = id ? parseInt(id) : 1;
+    const cardData = cardTypes[cardId as keyof typeof cardTypes] || cardTypes[1];
+
+    const mockCard = {
+      title: cardData.title,
+      date: "2024-03-27",
+      message: "Card Message",
+      imageUrl: "",
+    };
+    setCard(mockCard);
+  }, [id]);
+
+  // this function updates the state when the user types in an input field
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCard({ ...card, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/cards/${id}`, card);
+      // Simulation de la mise à jour
+      console.log("Card updated:", card);
       alert("Card updated successfully!");
-      navigate("/"); // redirect to homepage
+      navigate("/dashboard");
     } catch (error) {
       console.error("Update failed:", error);
     }
   };
 
-  // asks for confirmation before deleting (window.confirm)
-  // sends a DELETE request to /cards/:id
-  // if successful, alerts the user and redirects to /
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this card?")) {
       try {
-        await axios.delete(`http://localhost:5000/cards/${id}`);
+        // Simulation de la suppression
+        console.log("Card deleted:", id);
         alert("Card deleted!");
-        navigate("/"); // redirect after delete
+        navigate("/dashboard");
       } catch (error) {
         console.error("Delete failed:", error);
       }
@@ -77,9 +126,9 @@ const CardEdit: React.FC = () => {
       <div className={styles.cardContainer}>
         <div className={styles.preview}>
           {card.imageUrl ? (
-            <img src={card.imageUrl} className={styles.exampleImage} alt="Card Example" />
+            <img src={card.imageUrl} className={styles.exampleImage} alt={card.title || "Card"} />
           ) : (
-            <h2 className="noUrl">No image available</h2>
+            <img src={getCardImage(getCardType(id))} className={styles.exampleImage} alt="Card" />
           )}
         </div>
         <div className={styles.form}>
@@ -93,7 +142,7 @@ const CardEdit: React.FC = () => {
       </div>
       <div className={styles.cardButtons}>
         <button className={styles.cancelButton} onClick={handleDelete}>DELETE CARD</button>
-        <button className={styles.cancelButton} onClick={() => navigate("/")}>Cancel</button>
+        <button className={styles.cancelButton} onClick={() => navigate("/dashboard")}>Cancel</button>
         <button className={styles.submitButton} onClick={handleSubmit}>Save Changes</button>
       </div>
     </div>

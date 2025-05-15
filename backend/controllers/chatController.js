@@ -1,6 +1,6 @@
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 
-async function connectToDatabase() {
+export async function connectToDatabase() {
   return mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -9,7 +9,7 @@ async function connectToDatabase() {
   });
 }
 
-exports.getAllChats = async (req, res) => {
+export async function getAllChats(req, res) {
   try {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute('SELECT * FROM chats');
@@ -19,9 +19,9 @@ exports.getAllChats = async (req, res) => {
     console.error('Error carregant dades:', error.message);
     res.status(500).json({ error: 'Error carregant dades' });
   }
-};
+}
 
-exports.getChatById = async (req, res) => {
+export async function getChatById(req, res) {
   try {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute('SELECT * FROM chats WHERE idChat = ?', [req.params.idChat]);
@@ -31,9 +31,9 @@ exports.getChatById = async (req, res) => {
     console.error('Error carregant dades:', error.message);
     res.status(500).json({ error: 'Error carregant dades' });
   }
-};
+}
 
-exports.getChatsByUser = async (req, res) => {
+export async function getChatsByUser(req, res) {
   const { usuari1 } = req.query;
 
   if (!usuari1) {
@@ -52,9 +52,9 @@ exports.getChatsByUser = async (req, res) => {
     console.error('Error carregant els xats:', error.message);
     res.status(500).json({ error: 'Error carregant els xats' });
   }
-};
+}
 
-exports.createChat = async (req, res) => {
+export async function createChat(req, res) {
   const { usuari1, usuari2 } = req.query;
 
   if (!usuari1 || !usuari2) {
@@ -68,14 +68,21 @@ exports.createChat = async (req, res) => {
       [usuari1, usuari2, 0, 1, 1]
     );
     await connection.end();
-    res.status(201).json({ id: result.insertId, usuari1, usuari2, confirmUsuari2: 0, visibleUsr1: 1, visibleUsr2: 1 });
+    res.status(201).json({
+      id: result.insertId,
+      usuari1,
+      usuari2,
+      confirmUsuari2: 0,
+      visibleUsr1: 1,
+      visibleUsr2: 1
+    });
   } catch (error) {
     console.error('Error creant el xat:', error.message);
     res.status(500).json({ error: 'Error creant el xat' });
   }
-};
+}
 
-exports.confirmChat = async (req, res) => {
+export async function confirmChat(req, res) {
   const { idChat } = req.params;
   const { confirmUsuari2 } = req.body;
 
@@ -100,9 +107,9 @@ exports.confirmChat = async (req, res) => {
     console.error('Error actualitzant el xat:', error.message);
     res.status(500).json({ error: 'Error actualitzant el xat' });
   }
-};
+}
 
-exports.setChatInvisible = async (req, res) => {
+export async function setChatInvisible(req, res) {
   const { idChat } = req.params;
   const { visibleUsr1 } = req.body;
   const update = visibleUsr1 === 1 ? "visibleUsr1" : "visibleUsr2";
@@ -128,9 +135,9 @@ exports.setChatInvisible = async (req, res) => {
     console.error('Error actualitzant el xat:', error.message);
     res.status(500).json({ error: 'Error actualitzant el xat' });
   }
-};
+}
 
-exports.deleteChat = async (req, res) => {
+export async function deleteChat(req, res) {
   const { idChat } = req.params;
 
   if (!idChat) {
@@ -152,4 +159,4 @@ exports.deleteChat = async (req, res) => {
     console.error('Error eliminant el xat:', error.message);
     res.status(500).json({ error: 'Error eliminant el xat' });
   }
-};
+}

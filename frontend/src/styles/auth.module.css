@@ -191,7 +191,8 @@ button.social-button img[alt="Google"] {
 
 @media (max-width: 768px) {
   .login-box {
-    width: 100%;
+    width: 100vw;
+    max-width: 100%;
     height: auto;
     position: fixed;
     bottom: 0;
@@ -218,4 +219,3 @@ button.social-button img[alt="Google"] {
     font-weight: bold;
   }
 }
-
