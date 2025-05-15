@@ -34,26 +34,31 @@ export const getUserById = async (req, res) => {
 
 // Crear un nuevo usuario
 export const createUser = async (req, res) => {
-  const { nombre, email } = req.body;
+  const { name, email, userId } = req.body;
 
-  if (!nombre || !email) {
-    return res.status(400).json({ error: 'Nombre y email son requeridos' });
+  if (!name || !email || !userId) {
+    return res.status(400).json({ error: 'Nombre, email y userId son requeridos' });
   }
 
   try {
     const { data, error } = await supabase
       .from('User')
-      .insert([{ nombre, email }])
+      .insert([{ username: name, email_address: email, auth_id: userId }])
       .select()
       .single();
 
-    if (error) throw error;
-    res.status(201).json(data);
+    if (error) {
+      console.error("Error inserting user:", error);
+      throw error;
+    }
+
+    return res.status(201).json(data);
   } catch (error) {
-    console.error("Error creando usuario:", error.message);
-    res.status(500).json({ error: 'Error creando usuario' });
+    console.error("Error creando usuario:", error.message || error);
+    return res.status(500).json({ error: 'Error creando usuario' });
   }
 };
+
 
 // Actualizar un usuario
 export const updateUser = async (req, res) => {

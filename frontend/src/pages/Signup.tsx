@@ -50,7 +50,23 @@ const Signup: React.FC = () => {
         throw new Error(result.error || 'Signup failed');
       }
 
-      alert('Sign up successful! Please log in.');
+      const userId = result.user?.id || null;
+
+      if (!userId) {
+        throw new Error('User ID not found in response');
+      }
+
+      const response2 = await fetch('http://localhost:3001/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, userId })
+      });
+
+      if (!response2.ok) {
+        throw new Error(result.error || 'The username or email already exists');
+      }
+
+      alert('Sign up successful! Please confirm your email and log in.');
       navigate('/login');
     } catch (err: any) {
       setError(err.message);
