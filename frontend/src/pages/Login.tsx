@@ -96,7 +96,7 @@ const Login: React.FC = () => {
           </button>
         </div>
 
-        <p className={styles['register-text']}>Not a member? <a href="/signup">Register now</a></p>
+        <p className={styles['register-text']}>Not a member? <a href="signup">Register now</a></p>
       </div>
     </div>
   );
