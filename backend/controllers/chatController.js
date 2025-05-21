@@ -35,6 +35,7 @@ export async function getChatById(req, res) {
 
 export async function getChatsByUser(req, res) {
   const { usuari1 } = req.query;
+  console.log('usuari1:', usuari1);
 
   if (!usuari1) {
     return res.status(400).json({ error: 'Usuari1 és requerit' });

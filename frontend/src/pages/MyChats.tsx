@@ -50,8 +50,9 @@ const MyChats: React.FC = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/chat/user/${myMail}`);
+        const response = await fetch(`http://localhost:3001/api/chats/user?usuari1=${encodeURIComponent(myMail)}`);
         const data = await response.json();
+        console.log("Respuesta del servidor:", data);
         const chats = data.map((chat: any) => Chat.fromJSON(chat));
         setFilteredChats(chats);
       } catch (error) {
