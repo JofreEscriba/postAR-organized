@@ -95,3 +95,117 @@
  font-weight: bold;
  margin-left: 10px;
 }
+
+.container {
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh;
+ background-color: #f5f7fa;
+ padding: 80px 1rem 1rem 1rem;
+ box-sizing: border-box;
+ align-items: center;
+}
+
+.container h2 {
+ font-size: 2rem;
+ font-weight: 600;
+ color: #2c3e50;
+ margin: 1.5rem 0;
+ text-align: center;
+ border-bottom: 2px solid #ccc;
+ padding-bottom: 0.5rem;
+ width: 100%;
+ max-width: 800px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+ .container {
+   padding: 1.5rem 1rem;
+ }
+
+ .container h2 {
+   font-size: 1.5rem;
+ }
+}
+
+@media (max-width: 480px) {
+ .container {
+   padding: 1rem 0.5rem;
+ }
+
+ .container h2 {
+   font-size: 1.25rem;
+   margin: 1rem 0;
+ }
+}
+
+
+
+.titleRow {
+ display: flex;
+ align-items: center;
+ justify-content: center; /* centra el conjunto horizontalmente */
+ gap: 1rem;
+ margin-bottom: 1.5rem;
+ flex-wrap: nowrap; /* evitar que el botón baje de línea */
+ max-width: 800px;
+ width: 100%;
+ box-sizing: border-box;
+ padding: 0 1rem;
+}
+
+.titleRow h2 {
+ font-size: 1.8rem;
+ font-weight: 600;
+ color: #2c3e50;
+ margin: 0;
+ white-space: nowrap; /* evita que el título se divida en varias líneas */
+ flex-shrink: 1; /* permite que el título reduzca su tamaño si es necesario */
+ overflow: hidden;
+ text-overflow: ellipsis; /* pone ... si no cabe el texto */
+ max-width: calc(100% - 60px); /* reserva espacio para el botón */
+}
+
+.addButton {
+ background-color: #28a745; /* verde */
+ border: none;
+ color: white;
+ font-size: 2.2rem;
+ font-weight: bold;
+ width: 44px;
+ height: 44px;
+ border-radius: 50%;
+ cursor: pointer;
+ line-height: 1;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+ transition: background-color 0.3s ease;
+ user-select: none;
+ flex-shrink: 0; /* el botón no se reduce */
+}
+
+.addButton:hover {
+ background-color: #218838;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+ .titleRow {
+   justify-content: flex-start; /* en pantallas muy pequeñas, alineamos a la izquierda */
+   padding: 0 0.5rem;
+ }
+ 
+ .titleRow h2 {
+   font-size: 1.4rem;
+   max-width: calc(100% - 50px);
+ }
+
+ .addButton {
+   width: 38px;
+   height: 38px;
+   font-size: 1.8rem;
+ }
+}
