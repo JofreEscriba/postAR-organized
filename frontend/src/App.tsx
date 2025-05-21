@@ -11,7 +11,12 @@ import Layout from './components/Layout';
 import Dashboard from "./pages/Dashboard";
 import PostCreatedPage from './pages/postCreatedPage';
 import ProtectedRoute from './components/ProtectedRoute'; // Importa el componente
+import MyChats from './pages/MyChats';
+import NewChat from './pages/NewChat';
+import CurrentChats from './pages/CurrentChats';
 import './styles/global.css';
+
+
 
 const App: React.FC = () => {
   return (
@@ -69,6 +74,30 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <PostCreatedPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/chats" 
+            element={
+              <ProtectedRoute>
+                <MyChats />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/new-chat" 
+            element={
+              <ProtectedRoute>
+                <NewChat />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/current-chats/:id" 
+            element={
+              <ProtectedRoute>
+                <CurrentChats />
               </ProtectedRoute>
             } 
           />

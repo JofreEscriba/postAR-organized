@@ -1,0 +1,97 @@
+.wrapper {
+ padding: 20px;
+}
+
+.title {
+ font-size: 2rem;
+ margin-bottom: 20px;
+}
+
+.searchcontainer {
+ display: flex;
+ gap: 10px;
+ margin-bottom: 20px;
+}
+
+.searchbar {
+ flex: 1;
+ padding: 10px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+}
+
+.addButton {
+ padding: 10px 15px;
+ background-color: #007bff;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.cardscontainer {
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+}
+
+.cards {
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+}
+
+.card {
+ background-color: #f8f9fa;
+ border: 1px solid #ddd;
+ border-radius: 10px;
+ padding: 15px;
+}
+
+.chatButton {
+ background-color: transparent;
+ font-size: 1rem;
+ border: none;
+ cursor: pointer;
+ text-align: left;
+ width: 100%;
+}
+
+.chatActions {
+ display: flex;
+ gap: 10px;
+ margin-top: 10px;
+}
+
+.confirm {
+ background-color: #28a745;
+ color: white;
+ border: none;
+ padding: 8px 10px;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.reject {
+ background-color: #dc3545;
+ color: white;
+ border: none;
+ padding: 8px 10px;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.delete {
+ background-color: #6c757d;
+ color: white;
+ border: none;
+ padding: 8px 10px;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.rejectedLabel {
+ color: #dc3545;
+ font-weight: bold;
+ margin-left: 10px;
+}
