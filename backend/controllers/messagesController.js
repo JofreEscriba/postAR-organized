@@ -1,13 +1,13 @@
-import mysql from 'mysql2/promise';
+import connectToDatabase from "../databaseClient.js";
 
-export async function connectToDatabase() {
-    return mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
-  }
+// export async function connectToDatabase() {
+//     return mysql.createConnection({
+//       host: process.env.DB_HOST,
+//       user: process.env.DB_USER,
+//       password: process.env.DB_PASSWORD,
+//       database: process.env.DB_NAME,
+//     });
+//   }
 
 export async function getMessages(req, res) {
   const { idChat, numUsuari } = req.query;

@@ -51,6 +51,7 @@ const MyChats: React.FC = () => {
     const fetchChats = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/chats/user?usuari1=${encodeURIComponent(myMail)}`);
+        console.log(response);
         const data = await response.json();
         console.log("Respuesta del servidor:", data);
         const chats = data.map((chat: any) => Chat.fromJSON(chat));

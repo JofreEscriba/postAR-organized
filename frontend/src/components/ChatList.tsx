@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import styles from '../styles/MyChats.module.css';
 
 // Tipado para un chat
 interface Chat {
@@ -144,7 +145,8 @@ const ChatList: React.FC<ChatListProps> = ({ filteredChats, myMail }) => {
 
               {confirmat === 0 && chat.usuari1 !== otherUser && (
                 <>
-                  <b>Pendent de confirmació</b>
+                  <span className={styles.pendingLabel}>Pendent de confirmació</span>
+
                   <button
                     style={{
                       padding: "8px 12px",

@@ -209,3 +209,16 @@
    font-size: 1.8rem;
  }
 }
+
+.pendingLabel {
+  display: inline-block;
+  background-color: #fff3cd; /* amarillo claro */
+  color: #856404; /* amarillo oscuro */
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.35em 0.75em;
+  border-radius: 0.5rem;
+  border: 1px solid #ffeeba;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}

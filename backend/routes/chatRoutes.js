@@ -13,8 +13,8 @@ const router = express.Router();
 
 // Definir las rutas
 router.get('/', getAllChats);
+router.get('/user/', getChatsByUser);
 router.get('/:idChat', getChatById);
-router.get('/user', getChatsByUser);
 router.post('/', createChat);
 router.put('/confirm/:idChat', confirmChat);
 router.put('/invisible/:idChat', setChatInvisible);

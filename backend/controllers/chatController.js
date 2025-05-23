@@ -1,13 +1,15 @@
-import mysql from 'mysql2/promise';
+// import mysql from 'mysql2/promise';
+import connectToDatabase from "../databaseClient.js";
 
-export async function connectToDatabase() {
-  return mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-  });
-}
+// export async function connectToDatabase() {
+//   return mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     port: process.env.DB_PORT,
+//     user: process.env.DB_USERNAME,
+//     database: process.env.DB_DATABASE,
+//     password: process.env.DB_PASSWORD,    
+//   });
+// }
 
 export async function getAllChats(req, res) {
   try {
@@ -45,9 +47,10 @@ export async function getChatsByUser(req, res) {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute(
       'SELECT * FROM chats WHERE (usuari1 = ? AND visibleUsr1 = 1) OR (usuari2 = ? AND visibleUsr2 = 1)',
-      [usuari1, usuari1]
+      [decodeURIComponent(usuari1), decodeURIComponent(usuari1)]
     );
     await connection.end();
+    // console.log('rows:', rows);
     res.json(rows);
   } catch (error) {
     console.error('Error carregant els xats:', error.message);

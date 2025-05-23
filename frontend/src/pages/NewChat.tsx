@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import styles from '../styles/NewChat.module.css';
 
 const NewChat: React.FC = () => {
     const myMail = localStorage.getItem("user_email") ?? "";
@@ -50,65 +51,60 @@ const NewChat: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
-            <Navbar />
+  <div className={styles.container}>
+    <Navbar />
 
-            {/* Título arriba del todo */}
-            <div className="w-full text-center mt-10 mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Crear un nuevo chat</h1>
-            </div>
+    <div className={styles.titleWrapper}>
+      <h1 className={styles.title}>Crear un nuevo chat</h1>
+    </div>
 
-            {/* Formulario */}
-            <main className="flex-1 flex flex-col items-center justify-start px-4">
-                <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-xl">
-                    <form
-                        onSubmit={async (e) => {
-                            e.preventDefault();
-                            const userExists = await checkIfUserExists(email);
-                            if (userExists) {
-                                const success = await createChat(myMail, email);
-                                if (success) {
-                                    setEmail("");
-                                    navigate("/chat");
-                                }
-                            } else {
-                                alert("El usuario no existe.");
-                            }
-                        }}
-                        className="flex flex-col gap-6"
-                    >
-                        <label htmlFor="email" className="text-lg font-medium text-gray-700">
-                            Correo del usuario:
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="usuario@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-5 py-4 text-lg border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
-                        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-2">
-                            <button
-                                type="submit"
-                                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl text-lg font-semibold transition"
-                            >
-                                Añadir
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => navigate("/chats")}
-                                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl text-lg font-semibold transition"
-                            >
-                                Volver
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </div>
-    );
+    <main className={styles.main}>
+      <div className={styles.formWrapper}>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const userExists = await checkIfUserExists(email);
+            if (userExists) {
+                const success = await createChat(myMail, email);
+                if (success) {
+                    setEmail("");
+                    navigate("/chats");
+                }
+            } else {
+                alert("El usuario no existe.");
+            }
+        }}
+          className={styles.form}
+        >
+          <label htmlFor="email" className={styles.label}>
+            Correo del usuario:
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="usuario@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
+            required
+          />
+          <div className={styles.buttonsContainer}>
+            <button type="submit" className={`${styles.button} ${styles.buttonAdd}`}>
+              Añadir
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/chats")}
+              className={`${styles.button} ${styles.buttonCancel}`}
+            >
+              Volver
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+);
 };
 
 export default NewChat;
