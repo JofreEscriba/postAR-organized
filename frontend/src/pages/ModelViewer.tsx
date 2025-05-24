@@ -1,15 +1,25 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import { FBXLoader } from "three-stdlib";
 import * as THREE from "three";
 
-type Postcard = {
-  id: number;
-  model: string;
-};
+function Axes() {
+  const { scene } = useThree();
+
+  useEffect(() => {
+    const helper = new THREE.AxesHelper(5);
+    scene.add(helper);
+
+    return () => {
+      scene.remove(helper);
+    };
+  }, [scene]);
+
+  return null;
+}
 
 const ModelScene = ({ url }: { url: string }) => {
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -19,7 +29,8 @@ const ModelScene = ({ url }: { url: string }) => {
     loader.load(
       url,
       (fbx) => {
-        fbx.scale.set(0.01, 0.01, 0.01); // Ajusta escala si es necesario
+        fbx.scale.set(0.1, 0.1, 0.1);
+        fbx.position.set(0, 0, 0);
         setModel(fbx);
       },
       undefined,
@@ -34,9 +45,10 @@ const ModelScene = ({ url }: { url: string }) => {
 
 const ModelViewer = () => {
   const { id } = useParams();
-  const [postcard, setPostcard] = useState<Postcard | null>(null);
+  const [postcard, setPostcard] = useState<{ id: number; model: string } | null>(null);
 
   useEffect(() => {
+    if (!id) return;
     async function fetchModel() {
       try {
         const res = await axios.get(`http://localhost:3001/api/postcards/${id}`);
@@ -45,22 +57,29 @@ const ModelViewer = () => {
         console.error("Error fetching postcard:", error);
       }
     }
-
-    if (id) fetchModel();
+    fetchModel();
   }, [id]);
 
   if (!postcard) return <div>Loading model...</div>;
 
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <Canvas camera={{ position: [1, 1, 2], fov: 50 }}>
+      <Canvas camera={{ position: [0, 2, 10], fov: 50 }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} />
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <mesh>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial color="hotpink" />
+            </mesh>
+          }
+        >
           <ModelScene url={postcard.model} />
           <Environment preset="sunset" />
         </Suspense>
         <OrbitControls />
+        <Axes />
       </Canvas>
     </div>
   );
