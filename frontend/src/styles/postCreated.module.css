@@ -126,3 +126,21 @@
   border-color: #43a047;
   box-shadow: 0 8px 15px rgba(67, 160, 71, 0.4);
 }
+
+.qrContainer {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.qrContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.qrUrl {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+  word-break: break-all;
+}
+

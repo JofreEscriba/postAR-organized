@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "../styles/postCreated.module.css"; // CSS module
-import FBXViewer from "../components/FBXViewer"; // Ajusta la ruta si lo guardaste en otro lado
+import styles from "../styles/postCreated.module.css";
+import { QRCodeCanvas } from "qrcode.react";
 
 type Postcard = {
   id: number;
@@ -37,6 +37,9 @@ const PostCreatedPage = () => {
 
   if (!postcard) return <div>Loading...</div>;
 
+  // 🔗 URL a la página del visor 3D (ajusta dominio si necesario)
+  const viewerUrl = `http://localhost:5173/Post-AR/model-viewer/${postcard.id}`;
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -53,15 +56,20 @@ const PostCreatedPage = () => {
           />
         )}
 
-        {/* Modelo 3D usando Three.js */}
+        {/* Código QR para abrir visor 3D */}
         {postcard.model && (
-          <div className={styles.viewerWrapper}>
-            <h3>3D Model Preview</h3>
-            <FBXViewer url={postcard.model} />
+          <div className={styles.qrContainer}>
+            <h3>Scan to view 3D model</h3>
+            <QRCodeCanvas value={viewerUrl} size={180} />
+            {/* Mostrar la URL justo debajo del QR */}
+            <p className={styles.qrUrl}>
+              <a href={viewerUrl} target="_blank" rel="noopener noreferrer">
+                {viewerUrl}
+              </a>
+            </p>
           </div>
         )}
 
-        {/* Botón de volver al Dashboard */}
         <div className={styles.buttonContainer}>
           <button
             type="button"

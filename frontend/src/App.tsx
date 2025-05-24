@@ -15,6 +15,7 @@ import MyChats from './pages/MyChats';
 import NewChat from './pages/NewChat';
 import CurrentChats from './pages/CurrentChats';
 import EditProfile from './pages/EditProfile';
+import ModelViewer from './pages/ModelViewer';
 import './styles/global.css';
 
 
@@ -107,6 +108,14 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <EditProfile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/model-viewer/:id" 
+            element={
+              <ProtectedRoute>
+                <ModelViewer />
               </ProtectedRoute>
             } 
           />
