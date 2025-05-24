@@ -6,7 +6,9 @@ import {
   getPostcardById,
   createPostcard,
   updatePostcard,
-  deletePostcard
+  deletePostcard,
+  getAllPostcardsSent,
+  getAllPostcardsReceived,
 } from '../controllers/postcardController.js';
 
 const router = express.Router();
@@ -16,5 +18,8 @@ router.get('/:id', getPostcardById);
 router.post('/', upload.single('media'), createPostcard);
 router.put('/:id', updatePostcard);
 router.delete('/:id', deletePostcard);
+router.get('/sent/:userId', getAllPostcardsSent);
+router.get('/received/:userId', getAllPostcardsReceived);
+
 
 export default router;

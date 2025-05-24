@@ -9,17 +9,49 @@ const ProfilePage: React.FC = () => {
   const myMail = localStorage.getItem("user_email")!;
   const [userName, setUserName] = useState<string>("");
   const [userDescription, setUserDescription] = useState<string>("");
+  const [userID, setUserID] = useState<number>();
+  const [cardsSent, setcardsSent] = useState<number>(0);
+  const [cardsRecived, setcardsRecived] = useState<number>(0);
 
   async function getUserData() {
     try {
       const res = await fetch(`http://localhost:3001/api/users/email/${myMail}`);
       if (!res.ok) throw new Error("Error cargando el perfil");
   
-      const data = await res.json(); // <-- Solo se hace UNA VEZ
-      console.log(data); // Muestra el perfil completo (puedes inspeccionar esto)
-  
+      const data = await res.json();
       setUserName(data.username || "Usuario desconocido");
-      setUserDescription(data.description || "Añade una descripción!"); 
+      setUserDescription(data.description || "Añade una descripción!");
+      setUserID(data.id);
+  
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  }
+  
+
+  async function getCardsSent() {
+    try {
+      const res = await fetch(`http://localhost:3001/api/postcards/sent/${userID}`);
+      if (!res.ok) throw new Error("Error cargando el contador1");
+  
+      const data = await res.json(); // <-- Solo se hace UNA VEZ
+
+      setcardsSent(data.length || 0);
+  
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  }
+
+  async function getCardsRecived() {
+    try {
+      const res = await fetch(`http://localhost:3001/api/postcards/received/${userID}`);
+      console.log(res);
+      if (!res.ok) throw new Error("Error cargando el contador2");
+  
+      const data = await res.json();
+      setcardsRecived(data.length || 0);
+  
     } catch (err: any) {
       console.error(err.message);
     }
@@ -33,6 +65,15 @@ const ProfilePage: React.FC = () => {
   }
 
   getUserData();
+
+  useEffect(() => {
+    if (userID !== undefined) {
+      getCardsSent();
+      getCardsRecived();
+    }
+  }, [userID]);
+  
+  
   return (
     <div className={styles.profileWrapper}>
       <Navbar />
@@ -56,8 +97,8 @@ const ProfilePage: React.FC = () => {
             </p>
           </div>
           <div className={styles.stats}>
-            <div className={styles.statBox}><span>6</span> Cards sent</div>
-            <div className={styles.statBox}><span>4</span> Cards received</div>
+            <div className={styles.statBox}><span>{cardsSent}</span> Cards sent</div>
+            <div className={styles.statBox}><span>{cardsRecived}</span> Cards received</div>
           </div>
         </div>
 

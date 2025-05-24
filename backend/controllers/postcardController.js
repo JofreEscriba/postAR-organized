@@ -115,3 +115,33 @@ export const deletePostcard = async (req, res) => {
     res.status(500).json({ error: 'Error eliminando postal' });
   }
 };
+
+export const getAllPostcardsSent = async (req, res) => {
+  const userId = req.params.userId;
+  
+  try {
+    const { data, error } = await supabase.from('Postcard').select('*').eq('sender_id', userId);
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error("Error obteniendo postales:", error.message);
+    res.status(500).json({ error: 'Error obteniendo postales' });
+  }
+};
+
+export const getAllPostcardsReceived = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const { data, error } = await supabase.from('Postcard').select('*').eq('reciever_id', userId);
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error("Error obteniendo postales:", error.message);
+    res.status(500).json({ error: 'Error obteniendo postales' });
+  }
+};
+
+
