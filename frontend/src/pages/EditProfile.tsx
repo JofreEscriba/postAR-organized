@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/editProfile.module.css';
 import Navbar from '../components/Navbar';
+import profilePic from "../assets/profile.png";
 
 const EditProfilePage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const EditProfilePage: React.FC = () => {
   const [userDescription, setUserDescription] = useState<string>("");
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [userID, setUserID] = useState<BigInteger>();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
 
   useEffect(() => {
     async function getUserData() {
@@ -31,6 +34,29 @@ const EditProfilePage: React.FC = () => {
   const handleSave = async () => {
     try {
       setIsSaving(true);
+  
+        
+      let imageUrl = null;
+
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("file", imageFile);
+        formData.append("fileName", `${userID}_${Date.now()}`);
+
+        const uploadRes = await fetch("http://localhost:3001/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadRes.ok) throw new Error("Error subiendo imagen");
+
+        const data = await uploadRes.json();
+        imageUrl = data.publicUrl;
+      }
+
+      
+      
+  
       const res = await fetch(`http://localhost:3001/api/users/${userID}`, {
         method: "PUT",
         headers: {
@@ -39,9 +65,10 @@ const EditProfilePage: React.FC = () => {
         body: JSON.stringify({
           username: userName,
           description: userDescription,
+          profile_image: imageUrl,
         }),
       });
-
+  
       if (!res.ok) throw new Error("Error actualizando perfil");
       alert("Perfil actualizado correctamente");
       navigate('/profile');
@@ -52,6 +79,7 @@ const EditProfilePage: React.FC = () => {
       setIsSaving(false);
     }
   };
+  
 
   return (
     <div className={styles.profileWrapper}>
@@ -60,6 +88,16 @@ const EditProfilePage: React.FC = () => {
         <div className={styles.leftColumn}>
           <h2 className={styles.profileTitle}>Edit Profile</h2>
           <div className={styles.profileCard}>
+          <label className={styles.label}>Profile Picture:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setImageFile(file);
+            }}
+          />
+
             <label className={styles.label}>Username:</label>
             <input
               className={styles.input}

@@ -9,6 +9,7 @@ import messagesRoutes from './routes/messagesRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import postcardRoutes from './routes/postcardRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import upload from './routes/uploadRoutes.js';
 
 dotenv.config();  // Llama a config() para cargar las variables de entorno
 
@@ -31,6 +32,7 @@ app.use("/api/messages", messagesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/postcards', postcardRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', upload); 
 
 // Ruta raíz
 app.get("/", (req, res) => {

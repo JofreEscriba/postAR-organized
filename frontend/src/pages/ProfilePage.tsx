@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/profile.module.css';
 import Navbar from '../components/Navbar';
 import { FaEdit, FaCheckCircle } from 'react-icons/fa';
+import profilePic from "../assets/profile.png";
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const ProfilePage: React.FC = () => {
   const [userID, setUserID] = useState<number>();
   const [cardsSent, setcardsSent] = useState<number>(0);
   const [cardsRecived, setcardsRecived] = useState<number>(0);
+  const [userImage, setUserImage] = useState<string>( profilePic);
 
   async function getUserData() {
     try {
@@ -22,6 +24,7 @@ const ProfilePage: React.FC = () => {
       setUserName(data.username || "Usuario desconocido");
       setUserDescription(data.description || "Añade una descripción!");
       setUserID(data.id);
+      setUserImage(data.profile_image || profilePic);
   
     } catch (err: any) {
       console.error(err.message);
@@ -84,7 +87,7 @@ const ProfilePage: React.FC = () => {
           <div className={styles.profileCard}>
             <div className={styles.profileHeader}>
               <div className={styles.imageContainer}>
-                <img src="/Post-AR/profile.png" alt="Profile" className={styles.profilePic} />
+                <img src={userImage} alt="Profile" className={styles.profilePic} />
                 <FaCheckCircle className={styles.verifiedIcon} />
               </div>
               <div className={styles.userInfo}>

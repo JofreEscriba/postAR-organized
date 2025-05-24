@@ -6,19 +6,32 @@ import styles from "../styles/dashboard.module.css";
 import profilePic from "../assets/profile.png";
 
 const Dashboard: React.FC = () => {
-  const [user, setUser] = useState<{ name: string; avatar: string } | null>(null);
+  const myMail = localStorage.getItem("user_email")!;
   const [filter, setFilter] = useState<'all' | 'sent' | 'received'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const navigate = useNavigate();
   const cardRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+  const [userID, setUserID] = useState<BigInteger>();
+  const [userName, setUserName] = useState<string>("");
+  const [userImage, setUserImage] = useState<string>( profilePic);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const userData = { name: "John Doe", avatar: profilePic };
-      setUser(userData);
-    };
-    fetchUser();
-  }, []);
+    async function getUserData() {
+      try {
+        const res = await fetch(`http://localhost:3001/api/users/email/${myMail}`);
+        if (!res.ok) throw new Error("Error cargando el perfil");
+
+        const data = await res.json();
+        setUserName(data.username || "");
+        setUserID(data.id || BigInt(0));
+        setUserImage(data.profile_image || profilePic);
+      } catch (err: any) {
+        console.error(err.message);
+      }
+    }
+    getUserData();
+  }, [myMail]);
+  
 
   const cardsData = [
     { id: 1, text: 'Main Balance', category: 'all' },
@@ -56,11 +69,11 @@ const Dashboard: React.FC = () => {
       <Navbar />
 
       <div className={styles.content}>
-        <img src={user?.avatar} alt="Profile" className={styles.profileImage} />
+        <img src={userImage} alt="Profile" className={styles.profileImage} />
         <div className={styles.textContainer}>
           <h1 className={styles.greeting}>
             Hello <br />
-            <span className={styles.userName}>{user ? user.name : "User"}</span>
+            <span className={styles.userName}>{userName ? userName : "User"}</span>
           </h1>
           <button onClick={() => navigate("/cardAdd")} className={`${styles.addButton} ${styles.desktopOnly}`}>
             Add Card
