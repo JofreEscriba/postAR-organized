@@ -16,10 +16,11 @@ const CardAdd: React.FC = () => {
     date: "",
     message: "",
     location: "",
+    sender: "",      // <-- Añadido campo remitente
   });
 
   useEffect(() => {
-    setFormData({ title: "", date: "", message: "", location: "" });
+    setFormData({ title: "", date: "", message: "", location: "", sender: "" });
     setMedia(null);
     setPreview(null);
   }, []);
@@ -40,7 +41,7 @@ const CardAdd: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!formData.title || !formData.date || !formData.message || !formData.location) {
+    if (!formData.title || !formData.date || !formData.message || !formData.location || !formData.sender) {
       alert("Please fill out all fields.");
       return;
     }
@@ -50,31 +51,48 @@ const CardAdd: React.FC = () => {
       return;
     }
 
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("date", formData.date);
-    formDataToSend.append("message", formData.message);
-    formDataToSend.append("location", formData.location);
-    formDataToSend.append("media", media);
-
     try {
+      // 1. Buscar el usuario destinatario por email (formData.sender)
+      const responseSender = await axios.get(`http://localhost:3001/api/users/email/${formData.sender}`);
+      if (!responseSender.data || !responseSender.data.id) {
+        alert("The recipient email does not exist.");
+        return;
+      }
+      const recipientId = responseSender.data.id;
+
+      // 2. Buscar el usuario que envía la tarjeta (desde localStorage)
       const userMail = localStorage.getItem("user_email");
       const responseUser = await axios.get(`http://localhost:3001/api/users/email/${userMail}`);
-      const sender_id = responseUser.data.id;
-      formDataToSend.append("sender_id", sender_id);
+      const senderId = responseUser.data.id;
 
+      // 3. Crear FormData para enviar
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("date", formData.date);
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("location", formData.location);
+      formDataToSend.append("sender_id", senderId);      // ID del remitente
+      formDataToSend.append("recipient_id", recipientId); // ID del destinatario
+      formDataToSend.append("media", media);
+
+      // 4. Enviar la tarjeta postal
       const r = await axios.post("http://localhost:3001/api/postcards", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-    const createdPostId = r.data.id;
+      const createdPostId = r.data.id;
+      navigate("/post-created", { state: { postcardId: createdPostId } });
 
-    navigate("/post-created", { state: { postcardId: createdPostId } });
-    } catch (error) {
-      console.error("Error uploading:", error);
-      alert("Upload failed.");
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
+        alert("Recipient email not found.");
+      } else {
+        console.error("Error uploading:", error);
+        alert("Upload failed.");
+      }
     }
   };
+
 
   return (
     <div className={styles.wrapper}>
@@ -100,13 +118,31 @@ const CardAdd: React.FC = () => {
 
         <div className={styles.form}>
           <h2>Card Title</h2>
-          <input type="text" name="title" className={styles.inputField} value={formData.title} onChange={handleInputChange} />
+          <input
+            type="text"
+            name="title"
+            className={styles.inputField}
+            value={formData.title}
+            onChange={handleInputChange}
+          />
 
           <h2>Sent on</h2>
-          <input type="date" name="date" className={styles.dateField} value={formData.date} onChange={handleInputChange} />
+          <input
+            type="date"
+            name="date"
+            className={styles.dateField}
+            value={formData.date}
+            onChange={handleInputChange}
+          />
 
           <h2>Message</h2>
-          <input type="text" name="message" className={styles.inputField} value={formData.message} onChange={handleInputChange} />
+          <input
+            type="text"
+            name="message"
+            className={styles.inputField}
+            value={formData.message}
+            onChange={handleInputChange}
+          />
 
           <h2>Location</h2>
           <select
@@ -123,6 +159,17 @@ const CardAdd: React.FC = () => {
             <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//SagradaFamilia_3DModel.fbx">Sagrada Familia</option>
             <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//TajMahal_3DModel.fbx">Taj Mahal</option>
           </select>
+
+          {/* Nuevo campo remitente */}
+          <h2>Addressee</h2>
+          <input
+            type="text"
+            name="sender"
+            className={styles.inputField}
+            value={formData.sender}
+            onChange={handleInputChange}
+            placeholder="To whom are you sending this card?"
+          />
 
           <div className={styles.buttonContainer}>
             <button type="button" className={styles.cancelButtonMobile} onClick={() => navigate(-1)}>Cancel</button>

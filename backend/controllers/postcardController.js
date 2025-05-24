@@ -35,7 +35,7 @@ export const getPostcardById = async (req, res) => {
 
 // Crear una nueva postal
 export const createPostcard = async (req, res) => {
-  const { title,date, message, sender_id, location } = req.body;
+  const { title,date, message, sender_id, location, sender } = req.body;
   const file = req.file;
 
 
@@ -64,7 +64,7 @@ export const createPostcard = async (req, res) => {
     // 3. Insertar en la tabla
     const { data, error: insertError } = await supabase
       .from('Postcard')
-      .insert([{ title:title, description:message, sender_id:sender_id, image:image_url, model:location }])
+      .insert([{ title:title, description:message, sender_id:sender_id, image:image_url, model:location, reciever_id:sender }])
       .select()
       .single();
 
