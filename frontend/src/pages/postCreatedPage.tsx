@@ -1,38 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../styles/cardAdd.module.css";
+import axios from "axios";
+import styles from "../styles/postCreated.module.css"; // Importación del CSS module
 
-const PostCreatedPage: React.FC = () => {
-  const navigate = useNavigate();
+type Postcard = {
+  id: number;
+  title: string;
+  description: string;
+  created_at: string;
+  location: string;
+  image?: string;
+  model: string;
+};
+
+const PostCreatedPage = () => {
   const location = useLocation();
-  
-  // Recibes el post creado desde el estado del navigate
-  const post = location.state?.post;
+  const navigate = useNavigate(); // 👈 Hook para navegación
+  const { postcardId } = location.state || {};
+  const [postcard, setPostcard] = useState<Postcard | null>(null);
 
-  if (!post) {
-    return (
-      <div className={styles.wrapper}>
-        <p>No post data available.</p>
-        <button onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!postcardId) return;
+    async function fetchPostcard() {
+      try {
+        const res = await axios.get(`http://localhost:3001/api/postcards/${postcardId}`);
+        setPostcard(res.data);
+      } catch (error) {
+        console.error("Error fetching postcard:", error);
+      }
+    }
+    fetchPostcard();
+  }, [postcardId]);
+
+  if (!postcard) return <div>Loading...</div>;
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <h1>Post Created Successfully!</h1>
-        <p>Your post titled <strong>{post.title}</strong> has been created and is now visible to others.</p>
-        <p><strong>Date:</strong> {post.date}</p>
-        <p><strong>Message:</strong> {post.message}</p>
-        <p><strong>Location:</strong> {post.location}</p>
+        <h1 className={styles.title}>Post Created Successfully!</h1>
+        <p className={styles.description}>Title: {postcard.title}</p>
+        <p className={styles.description}>Message: {postcard.description}</p>
+        <p className={styles.description}>Date: {postcard.created_at}</p>
+        {postcard.image && (
+          <img
+            src={postcard.image}
+            alt={postcard.title}
+            className={styles.postcardImage}
+          />
+        )}
 
+        {/* Botón de volver al Dashboard */}
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate(-1)} className={styles.cancelButtonMobile}>
-            Go Back
-          </button>
-          <button onClick={() => navigate("/dashboard")} className={styles.submitButton}>
-            Dashboard
+          <button
+            type="button"
+            className={styles.submitButton}
+            onClick={() => navigate("/dashboard")}
+          >
+            Go to Dashboard
           </button>
         </div>
       </div>

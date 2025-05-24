@@ -33,6 +33,16 @@
   line-height: 1.5;
 }
 
+.postcardImage {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 .buttonContainer {
   display: flex;
   gap: 20px;
@@ -91,4 +101,28 @@
     width: 100%;
     min-width: unset;
   }
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid #4caf50;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #43a047;
+  border-color: #43a047;
+  box-shadow: 0 8px 15px rgba(67, 160, 71, 0.4);
 }

@@ -63,11 +63,13 @@ const CardAdd: React.FC = () => {
       const sender_id = responseUser.data.id;
       formDataToSend.append("sender_id", sender_id);
 
-      await axios.post("http://localhost:3001/api/postcards", formDataToSend, {
+      const r = await axios.post("http://localhost:3001/api/postcards", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate("/post-created");
+    const createdPostId = r.data.id;
+
+    navigate("/post-created", { state: { postcardId: createdPostId } });
     } catch (error) {
       console.error("Error uploading:", error);
       alert("Upload failed.");
