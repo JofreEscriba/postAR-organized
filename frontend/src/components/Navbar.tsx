@@ -22,9 +22,9 @@ const Navbar = () => {
         <Link to="/dashboard" className={`${styles.link} ${location.pathname === '/dashboard' ? styles.active : ''}`}>
           <MdDashboard /> Home
         </Link>
-        <Link to="/MyCards" className={`${styles.link} ${location.pathname === '/MyCards' ? styles.active : ''}`}>
+        {/* <Link to="/MyCards" className={`${styles.link} ${location.pathname === '/MyCards' ? styles.active : ''}`}>
           <MdCreditCard /> Cards
-        </Link>
+        </Link> */}
         <Link to="/profile" className={`${styles.link} ${location.pathname === '/profile' ? styles.active : ''}`}>
           <FaRegUser /> Profile
         </Link>
