@@ -67,7 +67,7 @@ const CardAdd: React.FC = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      navigate("/dashboard");
+      navigate("/post-created");
     } catch (error) {
       console.error("Error uploading:", error);
       alert("Upload failed.");
@@ -114,12 +114,12 @@ const CardAdd: React.FC = () => {
             onChange={handleInputChange}
           >
             <option value="">Select a location</option>
-            <option value="Kukulkan Temple">Kukulkan Temple</option>
-            <option value="Gare De Metz">Gare De Metz</option>
-            <option value="Oude Kerk Delft">Oude Kerk Delft</option>
-            <option value="Pisa Tower">Pisa Tower</option>
-            <option value="Sagrada Familia">Sagrada Familia</option>
-            <option value="Taj Mahal">Taj Mahal</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//KukulkanTemple_3DModel.fbx">Kukulkan Temple</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//GareDeMetz_3DModel.fbx">Gare De Metz</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//OudeKerkDelft_3DModel.fbx">Oude Kerk Delft</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//PisaTower_3DModel.fbx">Pisa Tower</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//SagradaFamilia_3DModel.fbx">Sagrada Familia</option>
+            <option value="https://tbzgewjnfcjviexmgnsq.supabase.co/storage/v1/object/public/test//TajMahal_3DModel.fbx">Taj Mahal</option>
           </select>
 
           <div className={styles.buttonContainer}>

@@ -1,0 +1,94 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background-color: #f9fafc;
+}
+
+.content {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 30px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cancelButtonMobile,
+.submitButton {
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  min-width: 120px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cancelButtonMobile {
+  background-color: #fff;
+  color: #e53935;
+  border: 2px solid #e53935;
+}
+
+.cancelButtonMobile:hover,
+.cancelButtonMobile:focus {
+  background-color: #e53935;
+  color: white;
+  box-shadow: 0 8px 15px rgba(229, 57, 53, 0.4);
+  outline: none;
+}
+
+.submitButton {
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid #4caf50;
+}
+
+.submitButton:hover,
+.submitButton:focus {
+  background-color: #43a047;
+  border-color: #43a047;
+  box-shadow: 0 8px 15px rgba(67, 160, 71, 0.4);
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .buttonContainer {
+    flex-direction: column;
+  }
+
+  .cancelButtonMobile,
+  .submitButton {
+    width: 100%;
+    min-width: unset;
+  }
+}
