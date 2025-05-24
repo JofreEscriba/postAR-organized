@@ -26,22 +26,10 @@ const ProfilePage: React.FC = () => {
   }
 
   async function handleLogout() {
-    try {
-      const res = await fetch(`http://localhost:3001/api/logout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!res.ok) throw new Error("Error al cerrar sesión");
-  
-      localStorage.removeItem("user_email");
-      navigate('/');
-    } catch (err: any) {
-      console.error(err.message);
-      alert("No se pudo cerrar sesión");
-    }
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("access_token");
+    navigate("/");
   }
 
   getUserData();
