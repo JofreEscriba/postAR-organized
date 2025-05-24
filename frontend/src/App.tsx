@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute'; // Importa el componen
 import MyChats from './pages/MyChats';
 import NewChat from './pages/NewChat';
 import CurrentChats from './pages/CurrentChats';
+import EditProfile from './pages/EditProfile';
 import './styles/global.css';
 
 
@@ -98,6 +99,14 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <CurrentChats />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/edit-profile" 
+            element={
+              <ProtectedRoute>
+                <EditProfile />
               </ProtectedRoute>
             } 
           />

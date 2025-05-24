@@ -1,0 +1,78 @@
+.input {
+ width: 100%;
+ font-size: clamp(18px, 2vw, 22px);
+ padding: 10px 14px;
+ border: 1px solid #ccc;
+ border-radius: 8px;
+ margin-bottom: 15px;
+ box-sizing: border-box;
+ outline: none;
+ transition: border-color 0.2s ease-in-out;
+}
+
+.input:focus {
+ border-color: #6c4af2;
+}
+
+.textarea {
+ width: 100%;
+ font-size: clamp(18px, 2vw, 22px);
+ padding: 10px 14px;
+ border: 1px solid #ccc;
+ border-radius: 8px;
+ resize: vertical;
+ min-height: 120px;
+ margin-bottom: 20px;
+ box-sizing: border-box;
+ outline: none;
+ transition: border-color 0.2s ease-in-out;
+}
+
+.textarea:focus {
+ border-color: #6c4af2;
+}
+
+.saveButton {
+ background-color: #6c4af2;
+ color: white;
+ font-size: clamp(20px, 2vw, 24px);
+ padding: 12px 20px;
+ border: none;
+ border-radius: 8px;
+ cursor: pointer;
+ transition: background-color 0.2s ease-in-out;
+}
+
+.saveButton:hover {
+ background-color: #5638d0;
+}
+
+.saveButton:disabled {
+ background-color: #a89cf4;
+ cursor: not-allowed;
+}
+
+.label {
+ font-size: clamp(18px, 2vw, 22px);
+ margin-bottom: 6px;
+ font-weight: 600;
+ display: block;
+ color: #444;
+}
+
+.cancelButton {
+ background: #e63946;
+ color: #ffffff;
+ font-size: clamp(18px, 2vw, 22px);
+ padding: 10px 18px;
+ border: 2px solid #e63946;
+ border-radius: 8px;
+ cursor: pointer;
+ transition: all 0.2s ease-in-out;
+ margin-top: 20px;
+}
+
+.cancelButton:hover {
+ background-color: #98212b;
+ border: 2px solid #98212b;
+}
