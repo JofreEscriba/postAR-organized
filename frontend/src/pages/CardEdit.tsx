@@ -18,7 +18,7 @@ const CardEdit: React.FC = () => {
 
   const [card, setCard] = useState({
     title: "",
-    date: "",
+    date: new Date(),
     message: "",
     imageUrl: "",
   });
@@ -64,26 +64,28 @@ const CardEdit: React.FC = () => {
   };
 
   useEffect(() => {
-    // Simulation des données de la carte en fonction de l'ID
-    const cardTypes = {
-      1: { title: "Main Balance", color: "blue" },
-      2: { title: "Sunshine Memory", color: "green" },
-      3: { title: "Gift Card", color: "purple" },
-      4: { title: "Travel Card", color: "yellow" },
-      5: { title: "Bonus Card", color: "red" }
+    const fetchCard = async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/postcards/${id}`);
+        if (!res.ok) throw new Error("No se pudo cargar la postal");
+  
+        const data = await res.json();
+        setCard({
+          title: data.title || "",
+          date: new Date(data.created_at) || "",
+          message: data.description || "",
+          imageUrl: data.image || "",
+        });
+      } catch (err) {
+        console.error("Error fetching card:", err);
+      }
     };
-
-    const cardId = id ? parseInt(id) : 1;
-    const cardData = cardTypes[cardId as keyof typeof cardTypes] || cardTypes[1];
-
-    const mockCard = {
-      title: cardData.title,
-      date: "2024-03-27",
-      message: "Card Message",
-      imageUrl: "",
-    };
-    setCard(mockCard);
+  
+    if (id) {
+      fetchCard();
+    }
   }, [id]);
+  
 
   // this function updates the state when the user types in an input field
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,27 +95,50 @@ const CardEdit: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Simulation de la mise à jour
-      console.log("Card updated:", card);
+      const updatedCard = {
+        title: card.title,
+        description: card.message,
+        image: card.imageUrl,
+        created_at: card.date.toISOString(), // Asegura formato correcto
+      };
+  
+      const res = await fetch(`http://localhost:3001/api/postcards/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCard),
+      });
+  
+      if (!res.ok) throw new Error("Error al guardar los cambios");
+  
       alert("Card updated successfully!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Update failed:", error);
+      alert("Failed to update card.");
     }
   };
+  
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this card?")) {
       try {
-        // Simulation de la suppression
-        console.log("Card deleted:", id);
+        const res = await fetch(`http://localhost:3001/api/postcards/${id}`, {
+          method: "DELETE",
+        });
+  
+        if (!res.ok) throw new Error("Error al eliminar la postal");
+  
         alert("Card deleted!");
         navigate("/dashboard");
       } catch (error) {
         console.error("Delete failed:", error);
+        alert("Failed to delete card.");
       }
     }
   };
+  
 
   return (
     <div className={styles.wrapper}>
@@ -124,18 +149,25 @@ const CardEdit: React.FC = () => {
         <h1>{card.title || "Card Title"}</h1>
       </div>
       <div className={styles.cardContainer}>
-        <div className={styles.preview}>
+      <div className={styles.preview}>
           {card.imageUrl ? (
             <img src={card.imageUrl} className={styles.exampleImage} alt={card.title || "Card"} />
           ) : (
             <img src={getCardImage(getCardType(id))} className={styles.exampleImage} alt="Card" />
           )}
         </div>
+
         <div className={styles.form}>
           <h2>Card Title</h2>
           <input type="text" name="title" className={styles.inputField} value={card.title} onChange={handleInputChange} />
           <h2>Sent on</h2>
-          <input type="date" name="date" className={styles.dateField} value={card.date} onChange={handleInputChange} />
+          <input
+              type="date"
+              name="date"
+              className={styles.dateField}
+              value={card.date instanceof Date ? card.date.toISOString().split('T')[0] : ""}
+              onChange={handleInputChange}
+            />
           <h2>Message</h2>
           <input type="text" name="message" className={styles.inputField} value={card.message} onChange={handleInputChange} />
         </div>

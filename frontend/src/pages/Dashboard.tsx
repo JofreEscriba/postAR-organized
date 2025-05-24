@@ -5,57 +5,87 @@ import MobileNavbar from "../components/MobileNavbar";
 import styles from "../styles/dashboard.module.css";
 import profilePic from "../assets/profile.png";
 
+type Postcard = {
+  id: number;
+  title: string;
+  sender_id: number;
+  receiver_id: number;
+  image: string;
+  created_at: string;
+  description:string;
+  // agrega más campos si los necesitas
+};
+
 const Dashboard: React.FC = () => {
   const myMail = localStorage.getItem("user_email")!;
   const [filter, setFilter] = useState<'all' | 'sent' | 'received'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const navigate = useNavigate();
   const cardRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
-  const [userID, setUserID] = useState<BigInteger>();
+
+  const [userID, setUserID] = useState<number | null>(null);
   const [userName, setUserName] = useState<string>("");
-  const [userImage, setUserImage] = useState<string>( profilePic);
+  const [userImage, setUserImage] = useState<string>(profilePic);
+
+  const [sentCards, setSentCards] = useState<Postcard[]>([]);
+  const [receivedCards, setReceivedCards] = useState<Postcard[]>([]);
 
   useEffect(() => {
     async function getUserData() {
       try {
         const res = await fetch(`http://localhost:3001/api/users/email/${myMail}`);
         if (!res.ok) throw new Error("Error cargando el perfil");
-
         const data = await res.json();
+
         setUserName(data.username || "");
-        setUserID(data.id || BigInt(0));
-        setUserImage(data.profile_image || profilePic);
+        setUserID(data.id);
+        setUserImage(data.image_profile || profilePic);
       } catch (err: any) {
         console.error(err.message);
       }
     }
+
     getUserData();
   }, [myMail]);
-  
 
-  const cardsData = [
-    { id: 1, text: 'Main Balance', category: 'all' },
-    { id: 2, text: 'Sunshine Memory', category: 'sent' },
-    { id: 3, text: 'Gift Card', category: 'received' },
-    { id: 4, text: 'Travel Card', category: 'sent' },
-    { id: 5, text: 'Bonus Card', category: 'received' }
-  ];
+  useEffect(() => {
+    if (userID == null) return;
 
-  const filteredCards = cardsData.filter(card => {
-    const matchesCategory = filter === 'all' ? true : card.category === filter;
-    const matchesSearch = card.text.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+    async function fetchCards() {
+      try {
+        const [sentRes, recRes] = await Promise.all([
+          fetch(`http://localhost:3001/api/postcards/sent/${userID}`),
+          fetch(`http://localhost:3001/api/postcards/received/${userID}`)
+        ]);
 
-  const getCardClass = (id: number) => {
-    switch (id) {
-      case 1: return styles.mainBalanceCard;
-      case 2: return styles.sunshineCard;
-      case 3: return styles.giftCard;
-      case 4: return styles.travelCard;
-      case 5: return styles.bonusCard;
-      default: return '';
+        if (!sentRes.ok || !recRes.ok) throw new Error("Error obteniendo postales");
+
+        const sentData = await sentRes.json();
+        const receivedData = await recRes.json();
+
+        setSentCards(sentData);
+        setReceivedCards(receivedData);
+      } catch (err: any) {
+        console.error("Error cargando postales:", err.message);
+      }
     }
+
+    fetchCards();
+  }, [userID]);
+
+  const getFilteredCards = (): Postcard[] => {
+    let cards: Postcard[] = [];
+
+    if (filter === 'sent') cards = sentCards;
+    else if (filter === 'received') cards = receivedCards;
+    else cards = [...sentCards, ...receivedCards];
+
+    return cards.filter(card => card.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  };
+
+  const getCardClass = (index: number) => {
+    const classes = [styles.mainBalanceCard, styles.sunshineCard, styles.giftCard, styles.travelCard, styles.bonusCard];
+    return classes[index % classes.length];
   };
 
   const getComputedBgColor = (id: number) => {
@@ -73,7 +103,7 @@ const Dashboard: React.FC = () => {
         <div className={styles.textContainer}>
           <h1 className={styles.greeting}>
             Hello <br />
-            <span className={styles.userName}>{userName ? userName : "User"}</span>
+            <span className={styles.userName}>{userName || "User"}</span>
           </h1>
           <button onClick={() => navigate("/cardAdd")} className={`${styles.addButton} ${styles.desktopOnly}`}>
             Add Card
@@ -97,33 +127,28 @@ const Dashboard: React.FC = () => {
         </button>
 
         <div className={styles.buttonContainer}>
-          <button className={`${styles.allbutton} ${filter === 'all' ? styles.active : ''}`} onClick={() => setFilter('all')}>
-            All
-          </button>
-          <button className={`${styles.sentbutton} ${filter === 'sent' ? styles.active : ''}`} onClick={() => setFilter('sent')}>
-            Sent
-          </button>
-          <button className={`${styles.receivedbutton} ${filter === 'received' ? styles.active : ''}`} onClick={() => setFilter('received')}>
-            Received
-          </button>
+          <button className={`${styles.allbutton} ${filter === 'all' ? styles.active : ''}`} onClick={() => setFilter('all')}>All</button>
+          <button className={`${styles.sentbutton} ${filter === 'sent' ? styles.active : ''}`} onClick={() => setFilter('sent')}>Sent</button>
+          <button className={`${styles.receivedbutton} ${filter === 'received' ? styles.active : ''}`} onClick={() => setFilter('received')}>Received</button>
         </div>
 
         <div className={styles.cardscontainer}>
           <div className={styles.cards}>
-            {filteredCards.map(card => (
+            {getFilteredCards().map((card, index) => (
               <button
                 key={card.id}
-                ref={(el) => {
-                  if (el) {
-                    cardRefs.current[card.id] = el;
-                  }
+                ref={(el) => { if (el) cardRefs.current[card.id] = el; }}
+                className={styles.card}
+                style={{
+                  backgroundImage: `url(${card.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 }}
-                className={`${styles.card} ${getCardClass(card.id)}`}
                 onMouseEnter={(e) => (e.currentTarget.style.boxShadow = `0px 0px 15px ${getComputedBgColor(card.id)}`)}
                 onMouseLeave={(e) => (e.currentTarget.style.boxShadow = `none`)}
                 onClick={() => navigate(`/CardEdit/${card.id}`)}
               >
-                <p className={styles.cardtext}>{card.text}</p>
+                <p className={styles.cardtext}>{card.title}</p>
               </button>
             ))}
           </div>
