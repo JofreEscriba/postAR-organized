@@ -2,56 +2,56 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
 }
 
 .wrapper {
     width: 100vw;
-    min-height: 100vh;
-    padding-top: 0px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: white;
-    justify-content: space-between;
-    padding-bottom: 100px;
+}
+
+.navbar {
+    flex-shrink: 0;
 }
 
 .cardContainer {
+    flex: 1;
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    justify-content: space-evenly;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+    overflow: auto;
+    flex-wrap: wrap;
 }
 
 .preview {
     display: flex;
     flex-direction: column;
-    text-align: start;
     align-items: center;
     justify-content: flex-start;
-    padding: 30px;
-    width: 50%;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
 }
 
 .exampleImage {
     width: 100%;
-    max-width: 600px;
     height: auto;
-    border-radius: 40px /80px;
+    border-radius: 40px / 80px;
 }
 
 .picAndVidButton {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    gap: 15px;
     margin-top: 20px;
 }
 
 .pictureButton {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     color: #646cffa6;
     background-color: transparent;
@@ -60,17 +60,21 @@ body {
 }
 
 .form {
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 15px;
-    width: 35%;
-    align-items: start;
+    padding: 20px;
 }
+
 .form h2 {
     font-size: small;
     color: #9b96ab9a;
-    margin-top: 3%;
+    margin-top: 8px;
 }
+
 .inputField,
 .dateField {
     width: 100%;
@@ -81,55 +85,61 @@ body {
     border-bottom: 2px solid #cccccc9a;
     background: transparent;
     outline: none;
-    margin-bottom: 10%;
     color: #000;
 }
+
 .inputField:focus,
 .dateField:focus {
     border-bottom: 2px solid #646cff;
 }
+
 .dateField {
     color: #000;
 }
-.cancelButton {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 30px;
-    width: 100%;
-    max-width: 200px;
-    height: 45px;
-    background-color: white;
-    color: red;
-    border-radius: 8px;
-    border: 2px solid red;
-}
+
+.cancelButton,
 .submitButton {
     font-size: 18px;
     font-weight: bold;
-    width: 200px;
     height: 45px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 200px;
+    transition: 0.3s ease-in-out;
+}
+
+.cancelButton {
+    background-color: white;
+    color: red;
+    border: 2px solid red;
+}
+
+.submitButton {
     background-color: white;
     color: #646cff;
-    border-radius: 8px;
-    border: 2px solid ;
-    transition: ease-in-out 0.3s;
+    border: 2px solid #646cff;
 }
+
 .cancelButton:hover {
     transform: translateY(-3px);
-    transition: 0.3s ease-in-out;
     box-shadow: 0px 15px 40px -5px rgba(255, 0, 0, 0.25);
 }
+
 .submitButton:hover {
     transform: translateY(-3px);
-    transition: 0.3s ease-in-out;
     box-shadow: 0px 15px 40px -5px #646cff5b;
-}
-.navbar {
-    margin-bottom: 50px;
 }
 
 .cancelButtonMobile {
     display: none;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
 }
 
 @media (max-width: 1024px) {
@@ -138,44 +148,22 @@ body {
         align-items: center;
     }
 
-    .preview {
-        width: 100%;
-        padding: 20px;
-    }
-
     .form {
-        width: 90%;
-        align-items: center;
+        align-items: stretch;
     }
 
-    .inputField,
-    .dateField {
-        width: 100%;
-    }
     .exampleImage {
-        margin-top: 350px;
+        margin-top: 0;
     }
 }
-@media (max-width: 450px) {
-    .exampleImage {
-        margin-top: 0px;
-    }
 
+@media (max-width: 450px) {
     .cancelButton {
         display: none;
     }
-    
-    .buttonContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-    }
-    
+
     .cancelButtonMobile {
         display: block;
-        font-size: 18px;
-        font-weight: bold;
         width: 48%;
         height: 45px;
         background-color: white;
@@ -184,14 +172,17 @@ body {
         border: 2px solid red;
         transition: ease-in-out 0.3s;
     }
-    
+
     .cancelButtonMobile:hover {
         transform: translateY(-3px);
-        transition: 0.3s ease-in-out;
         box-shadow: 0px 15px 40px -5px rgba(255, 0, 0, 0.25);
     }
-    
+
     .submitButton {
         width: 48%;
+    }
+
+    .buttonContainer {
+        gap: 0;
     }
 }

@@ -13,6 +13,7 @@ type Postcard = {
   image: string;
   created_at: string;
   description:string;
+  model:string;
   // agrega más campos si los necesitas
 };
 
@@ -140,7 +141,7 @@ const Dashboard: React.FC = () => {
                 ref={(el) => { if (el) cardRefs.current[card.id] = el; }}
                 className={styles.card}
                 style={{
-                  backgroundImage: `url(${card.image})`,
+                  backgroundImage: `url("${card.image}")`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}

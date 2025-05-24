@@ -148,12 +148,12 @@
 
 .card {
   margin: 15px 10px 20px 20px;
-  height: 300px;
-  min-width: 475px;
+  height: 240px;
+  min-width: 380px;
   background-image: url('src/assets/BlueCardExample.png');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 600px;
+  background-size: 480px;
   border-radius: 40px / 80px;
   color: white;
   border: none;
