@@ -35,7 +35,6 @@ const CurrentChats: React.FC = () => {
                 if (!chatRes.ok) throw new Error("Error cargando el chat");
 
                 const [chat]: ChatData[] = await chatRes.json();
-
                 const notVisible =
                     (chat.usuari1 === myMail && chat.visibleUsr1 === 0) ||
                     (chat.usuari2 === myMail && chat.visibleUsr2 === 0) ||

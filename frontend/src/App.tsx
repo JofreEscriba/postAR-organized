@@ -94,7 +94,7 @@ const App: React.FC = () => {
             } 
           />
           <Route 
-            path="/current-chats/:id" 
+            path="/current-chats/:idChat" 
             element={
               <ProtectedRoute>
                 <CurrentChats />

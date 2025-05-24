@@ -103,7 +103,7 @@ const ChatList: React.FC<ChatListProps> = ({ filteredChats, myMail }) => {
                 cursor: confirmat === 2 ? "not-allowed" : "pointer",
                 textAlign: "left",
               }}
-              onClick={() => navigate(`/chat/${chatID}`)}
+              onClick={() => navigate(`/current-chats/${chatID}`)}
               disabled={confirmat === 2}
             >
               {otherUser}
