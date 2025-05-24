@@ -35,11 +35,11 @@ export const getPostcardById = async (req, res) => {
 
 // Crear una nueva postal
 export const createPostcard = async (req, res) => {
-  const { title,date, message, sender_id } = req.body;
+  const { title,date, message, sender_id, location } = req.body;
   const file = req.file;
 
 
-  if (!title || !date || !message || !sender_id  || !file) {
+  if (!title || !date || !message || !sender_id  || !file || !location) {
     return res.status(400).json({ error: 'Faltan campos requeridos o media' });
   }
 
@@ -64,7 +64,7 @@ export const createPostcard = async (req, res) => {
     // 3. Insertar en la tabla
     const { data, error: insertError } = await supabase
       .from('Postcard')
-      .insert([{ title:title, description:message, sender_id:sender_id, image:image_url }])
+      .insert([{ title:title, description:message, sender_id:sender_id, image:image_url, model:location }])
       .select()
       .single();
 
