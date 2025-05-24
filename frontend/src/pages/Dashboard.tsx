@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
 
         setUserName(data.username || "");
         setUserID(data.id);
-        setUserImage(data.image_profile || profilePic);
+        setUserImage(data.profile_image || profilePic);
       } catch (err: any) {
         console.error(err.message);
       }
