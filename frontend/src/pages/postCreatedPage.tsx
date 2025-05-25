@@ -78,6 +78,13 @@ const PostCreatedPage = () => {
           >
             Go to Dashboard
           </button>
+          <button
+            type="button"
+            className={styles.printButton}
+            onClick={() => window.print()}
+          >
+            Print Card
+          </button>
         </div>
       </div>
     </div>

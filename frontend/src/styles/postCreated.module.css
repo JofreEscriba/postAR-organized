@@ -144,3 +144,35 @@
   word-break: break-all;
 }
 
+.printButton {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.printButton:hover {
+  background-color: #555;
+}
+
+
+@media print {
+  .buttonContainer {
+    display: none !important;
+  }
+
+  .wrapper {
+    background-color: white !important;
+    padding: 0;
+  }
+
+  .postcardImage {
+    max-width: 100%;
+    height: auto;
+  }
+}
