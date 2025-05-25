@@ -1,0 +1,148 @@
+.previewWrapper {
+  padding-top: 70px; /* deja espacio para navbar */
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.previewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  /* border: 2px solid red; */
+}
+
+.cardImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cardInfo {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  color: black !important; /* 👈 Añadimos !important */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Asegura que TODOS los textos internos tengan color negro */
+.cardInfo * {
+  color: black !important; /* 👈 Esto forza el texto negro dentro de h1, p, strong, etc. */
+}
+
+
+.qrContainer {
+  margin-top: 2rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+.qrUrl {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.qrUrl a {
+  color: #0077cc;
+  text-decoration: underline;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.backButton,
+.printButton {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #6d6d6d;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.backButton:hover,
+.printButton:hover {
+  background-color: #555;
+}
+
+/* Responsive navbars */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+
+  .cardImage {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Impresión */
+@media print {
+  .backButton,
+  .printButton,
+  .desktopOnly,
+  .mobileOnly {
+    display: none !important;
+  }
+
+  .previewWrapper {
+    padding: 0;
+    background: white;
+  }
+
+  .cardInfo {
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
+/* Asegura que el cuerpo y el root permitan altura automática y scroll */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* Si usas un contenedor App principal, asegúrate de que no limite el crecimiento */
+.App {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+

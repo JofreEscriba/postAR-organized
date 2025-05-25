@@ -152,7 +152,13 @@
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.boxShadow = `0px 0px 15px ${getComputedBgColor(card.id)}`)}
                   onMouseLeave={(e) => (e.currentTarget.style.boxShadow = `none`)}
-                  onClick={() => navigate(`/CardEdit/${card.id}`)}
+                  onClick={() => {
+                    if (card.sender_id === userID) {
+                      navigate(`/CardEdit/${card.id}`);
+                    } else {
+                      navigate(`/CardPreview/${card.id}`);
+                    }
+                  }}
                 >
                   <p className={styles.cardtext}>{card.title}</p>
                 </button>
