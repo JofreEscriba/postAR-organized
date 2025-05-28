@@ -25,7 +25,10 @@ export const signupUser = async (req, res) => {
 
  const { data, error } = await supabase.auth.signUp({
    email,
-   password
+   password,
+   options: {
+      emailRedirectTo: 'http://localhost:5173/Post-AR/login',
+    },
  });
 
  if (error) {
