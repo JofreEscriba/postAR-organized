@@ -44,8 +44,10 @@ body {
 .exampleImage {
     width: 100%;
     max-width: 600px;
+    max-height: 450px;
     height: auto;
     border-radius: 40px /80px;
+    object-fit: cover;
 }
 .noUrl {
     color:#646cff;

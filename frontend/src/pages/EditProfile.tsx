@@ -75,7 +75,7 @@ const EditProfilePage: React.FC = () => {
       navigate('/profile');
     } catch (err: any) {
       console.error(err.message);
-      alert("No se pudo actualizar el perfil");
+      alert("The username already exists or there was an error updating the profile.");
     } finally {
       setIsSaving(false);
     }
