@@ -17,6 +17,10 @@ import CurrentChats from './pages/CurrentChats';
 import EditProfile from './pages/EditProfile';
 import ModelViewer from './pages/ModelViewer';
 import CardPreview from './pages/CardPreview';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+
+
 import './styles/global.css';
 
 
@@ -30,6 +34,8 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Rutas protegidas */}
           <Route 

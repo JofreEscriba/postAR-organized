@@ -67,7 +67,7 @@ const Login: React.FC = () => {
         <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
         <p className={styles['forgot-password']}>
-          Did you forget your password? <a href="#">Click here</a>
+          Did you forget your password? <a href="forgot-password">Click here</a>
         </p>
 
         <div className={styles['buttons']}>

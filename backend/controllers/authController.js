@@ -58,3 +58,22 @@ export const getOAuthUrl = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log('Email para reset:', email);
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required.' });
+  }
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: 'http://localhost:5173/Post-AR/reset-password',
+  });
+
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  return res.status(200).json({ message: 'Password reset email sent ✅', data });
+};
