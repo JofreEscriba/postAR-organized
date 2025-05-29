@@ -82,6 +82,22 @@ const ChatList: React.FC<ChatListProps> = ({ filteredChats, myMail }) => {
           }
         };
 
+        const forceDeleteChat = async () => {
+          try {
+            
+              const deleteResponse = await fetch(`http://localhost:3001/api/chats/${chatID}`, {
+                method: "DELETE",
+              });
+              if (!deleteResponse.ok) throw new Error("Error cancelant el xat");
+              alert("Xat cancelat");
+            
+
+            window.location.reload();
+          } catch (error: any) {
+            console.error("Error gestionant el xat:", error.message);
+          }
+        };
+
         return (
           <li
             key={chatID}
@@ -157,7 +173,7 @@ const ChatList: React.FC<ChatListProps> = ({ filteredChats, myMail }) => {
                       borderRadius: "5px",
                       cursor: "pointer",
                     }}
-                    onClick={deleteChat}
+                    onClick={forceDeleteChat}
                   >
                     Cancelar Sol·licitud
                   </button>
