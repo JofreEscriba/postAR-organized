@@ -23,6 +23,7 @@ const EditProfilePage: React.FC = () => {
         const data = await res.json();
         setUserName(data.username || "");
         setUserDescription(data.description || "");
+        console.log("Datos del usuario:", data);
         setUserID(data.id || BigInt(0));
       } catch (err: any) {
         console.error(err.message);
@@ -33,12 +34,12 @@ const EditProfilePage: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      setIsSaving(true);
-  
         
       let imageUrl = null;
 
       if (imageFile) {
+        console.log("Subiendo imagen:", imageFile.name);
+        console.log(userID);
         const formData = new FormData();
         formData.append("file", imageFile);
         formData.append("fileName", `${userID}_${Date.now()}`);
@@ -88,15 +89,31 @@ const EditProfilePage: React.FC = () => {
         <div className={styles.leftColumn}>
           <h2 className={styles.profileTitle}>Edit Profile</h2>
           <div className={styles.profileCard}>
-          <label className={styles.label}>Profile Picture:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) setImageFile(file);
-            }}
-          />
+            <div className={styles.imageUploadWrapper}>
+              <label htmlFor="fileInput" className={styles.imageLabel}>
+                <img
+                  src={
+                    imageFile
+                      ? URL.createObjectURL(imageFile)
+                      : profilePic
+                  }
+                  alt="Profile"
+                  className={styles.profileImage}
+                />
+                <div className={styles.uploadOverlay}>Change Photo</div>
+              </label>
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setImageFile(file);
+                }}
+                className={styles.hiddenFileInput}
+              />
+            </div>
+
 
             <label className={styles.label}>Username:</label>
             <input

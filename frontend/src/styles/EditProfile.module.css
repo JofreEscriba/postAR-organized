@@ -76,3 +76,47 @@
  background-color: #98212b;
  border: 2px solid #98212b;
 }
+
+.imageUploadWrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 20px;
+}
+
+.imageLabel {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #6c4af2;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.uploadOverlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 6px 0;
+  border-radius: 0 0 50% 50%;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.imageLabel:hover .uploadOverlay {
+  opacity: 1;
+}
+
+.hiddenFileInput {
+  display: none;
+}

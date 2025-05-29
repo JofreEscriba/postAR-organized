@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import styles from '../styles/MyChats.module.css';
 
 interface Message {
     id: string;
@@ -355,6 +356,8 @@ const CurrentChats: React.FC = () => {
                     flex: 1,
                     overflowY: "auto",
                     padding: "10px",
+                    backgroundColor: "#fff",
+                    maxWidth: "800px",
                 }}
             >
                 {messages.length === 0 ? (
@@ -398,6 +401,7 @@ const CurrentChats: React.FC = () => {
                     backgroundColor: "#f8f9fa",
                     padding: "10px",
                     borderTop: "1px solid #ddd",
+                    width: "500px",
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
